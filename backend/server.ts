@@ -40,9 +40,12 @@ app.get("/get-posts", async (req, res) => {
 app.post("/create-post", async (req, res) => {
   const title = req.body.title;
   const body = req.body.body;
+  const createdAt = new Date().toISOString() as string;
+  const lastActivity = new Date();
+  const comments: string[] = [];
 
   await db.collection("posts")
-    .add({ title, body })
+    .add({ title, body, createdAt, lastActivity, comments })
     .then(() => {
       res.send("Post created");
     })
