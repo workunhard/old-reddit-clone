@@ -37,6 +37,54 @@ app.get("/get-posts", async (req, res) => {
   }
 });
 
+app.get("/get-post", async (req, res) => {
+  const postId = req.query.id as string;
+  try {
+    const post = await db.collection("posts").doc(postId).get();
+    if (post.exists) {
+      res.status(200).send(post.data());
+    } else {
+      res.status(404).send("Post not found");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.post("/:id/add-comment", async (req, res) => {
+  const postId = req.params.id;
+  const comment = req.body.comment;
+  try {
+    await db
+      .collection("posts")
+      .doc(postId)
+      .update({
+        comments: admin.firestore.FieldValue.arrayUnion(comment),
+      });
+    res.send("Comment added successfully");
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+
+app.get("/:postId", (req, res) => {
+  const postId = req.params.postId;
+  db.collection("posts")
+    .doc(postId)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        res.status(200).send(doc.data());
+      } else {
+        res.status(404).send("Post not found");
+      }
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
 app.post("/create-post", async (req, res) => {
   const title = req.body.title;
   const body = req.body.body;
@@ -44,14 +92,14 @@ app.post("/create-post", async (req, res) => {
   const lastActivity = new Date();
   const comments: string[] = [];
 
-  await db.collection("posts")
-    .add({ title, body, createdAt, lastActivity, comments })
-    .then(() => {
-      res.send("Post created");
-    })
-    .catch((error) => {
-      res.status(500).send(error);
-    });
+  const newDocRef = await db
+    .collection("posts")
+    .add({ title, body, createdAt, lastActivity, comments });
+  
+  const _id = newDocRef.id;
+  await db.collection("posts").doc(_id).update({ _id });
+  res.send("Post created successfully");
+  
 });
 
 app.listen(port, () => {
