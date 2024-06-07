@@ -7,15 +7,11 @@ function Footer() {
         <div className="footer-left">
           <p>&copy; 2024 Reddit Clone</p>
         </div>
-        <div className="footer-center">
-          <a href="/about" className="footer-link">About</a>
-          <a href="/contact" className="footer-link">Contact</a>
-          <a href="/privacy" className="footer-link">Privacy Policy</a>
+        <div className="footer-center"> 
+          <a href="/Code" className="footer-link">Made by Code</a>
         </div>
         <div className="footer-right">
-          <a href="https://facebook.com" className="social-icon">FB</a>
-          <a href="https://twitter.com" className="social-icon">TW</a>
-          <a href="https://instagram.com" className="social-icon">IG</a>
+          <a href="https://instagram.com">IG</a>
         </div>
       </div>
     </footer>

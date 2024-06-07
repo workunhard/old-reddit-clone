@@ -10,9 +10,9 @@ function TopNav() {
       </div>
       <div className="nav-right">
         <>
-          <a href="/signin" className="nav-button">
+          <button className="nav-button">
             Sign In | Register
-          </a>
+          </button>
         </>
       </div>
     </nav>

@@ -25,32 +25,35 @@
   margin: 0;
 }
 
-.post-title-field {
-  border-radius: 1rem;
-  width: 100%;
-  height: 40px;
-}
-
-.post-area {
-  /* border-radius: 0.24rem; */
-  width: 100%;
-  height: 100px;
-  max-height: 200px;
-  min-height: 100px;
-  resize: vertical;
-  padding: 0;
-  margin: 0;
-}
-
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+  padding-left: 3px;
 }
 
 .form-fields {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.post-title-field,
+.post-area {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.post-title-field {
+  height: 40px;
+}
+
+.post-area {
+  height: 100px;
+  max-height: 200px;
+  min-height: 100px;
+  resize: vertical;
 }

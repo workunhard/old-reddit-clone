@@ -2,11 +2,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 15px;
     background-color: #333;
     color: #fff;
     font-size: 10pt;
     width: 100%;
+    max-height: 1rem;
   }
   
   .footer-content {
@@ -14,6 +15,7 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    white-space: nowrap;
   }
   
   .footer-left {
@@ -34,7 +36,7 @@
     gap: 10px;
   }
   
-  .footer-link, .social-icon {
+  .footer-link {
     text-decoration: none;
     color: #fff;
     transition: color 0.3s;

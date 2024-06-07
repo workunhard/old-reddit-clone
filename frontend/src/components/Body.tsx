@@ -16,25 +16,74 @@ function Body() {
     setIsModalOpen(false);
   };
 
-  useEffect(() => {
-    // Fetch posts data from the server when the component mounts
-    axios.get("http://localhost:5000/get-posts")
+  const fetchPosts = () => {
+    axios
+      .get("http://localhost:5000/get-posts")
       .then((response) => {
-        setPosts(response.data);
+        // Sort posts based on lastActivity timestamp in descending order
+        const sortedPosts = response.data.sort((a, b) => {
+          const dateA = new Date(a.createdAt).getTime(); // Convert to milliseconds
+          const dateB = new Date(b.createdAt).getTime(); // Convert to milliseconds
+          return dateB - dateA; // Sort in descending order
+        });
+        setPosts(sortedPosts);
       })
       .catch((error) => {
         console.error("Error fetching posts:", error);
       });
+  };
+
+  useEffect(() => {
+    fetchPosts();
   }, []);
+
+  const submitPost = async (title: string, body: string) => {
+    await axios.post("http://localhost:5000/create-post", { title, body });
+    fetchPosts(); // Fetch posts again after submitting a new post
+    closeModal();
+  };
+
+  function timeAgo(postDate: string): string {
+    const now = new Date();
+    const original = new Date(postDate);
+
+    const differenceInSeconds = Math.floor(
+      (now.getTime() - original.getTime()) / 1000
+    );
+
+    const minutes = Math.floor(differenceInSeconds / 60);
+    const hours = Math.floor(differenceInSeconds / 3600);
+    const days = Math.floor(differenceInSeconds / 86400);
+
+    if (days > 0) {
+      return `${days} day${days > 1 ? "s" : ""} ago`;
+    } else if (hours > 0) {
+      return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+    } else if (minutes > 0) {
+      return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+    } else {
+      return `${differenceInSeconds} second${
+        differenceInSeconds !== 1 ? "s" : ""
+      } ago`;
+    }
+  }
 
   return (
     <>
       <div>
         <button onClick={showModal}>Create a Post</button>
-        {isModalOpen && <CreatePostModal closeModal={closeModal} />}
+        {isModalOpen && (
+          <CreatePostModal submitPost={submitPost} closeModal={closeModal} />
+        )}
       </div>
-      {posts.map((post: any) => (
-        <PostListItem key={post.id} title={post.title} body={post.body} />
+      {posts.map((post) => (
+        <PostListItem
+          key={post.id}
+          title={post.title}
+          submitted={timeAgo(post.createdAt)}
+          body={post.body}
+          comments={post.comments.length}
+        />
       ))}
     </>
   );

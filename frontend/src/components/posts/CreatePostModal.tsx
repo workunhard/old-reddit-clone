@@ -1,19 +1,20 @@
-import axios from "axios";
 import "./CreatePostModal.css";
 import React from "react";
 
-function Modal({ closeModal }: { closeModal: () => void }) {
-
-
-
-  const submitPost = async (e: React.FormEvent) => {
+function Modal({
+  closeModal,
+  submitPost,
+}: {
+  closeModal: () => void;
+  submitPost: (title: string, body: string) => void;
+}) {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
     const title = formData.get("title") as string;
     const body = formData.get("body") as string;
-    axios.post("http://localhost:5000/create-post", { title, body });
-    closeModal();
+    await submitPost(title, body);
   };
 
   return (
@@ -21,9 +22,9 @@ function Modal({ closeModal }: { closeModal: () => void }) {
       <div className="modal-content">
         <div className="header">
           <h2>Create a Post</h2>
-          <button onClick={closeModal}>X</button>
+          <button onClick={closeModal}>x</button>
         </div>
-        <form className="form-fields" onSubmit={submitPost}>
+        <form className="form-fields" onSubmit={handleSubmit}>
           <input
             type="text"
             className="post-title-field"

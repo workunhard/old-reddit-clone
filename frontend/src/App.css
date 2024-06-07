@@ -1,4 +1,7 @@
 #root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   width: 100%;
   margin: 0;
 }
@@ -6,7 +9,7 @@
 .app-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  flex: 1;
 }
 
 .main-content {
@@ -14,3 +17,6 @@
   padding: 20px;
 }
 
+.footer-content {
+  flex-shrink: 0;
+}
