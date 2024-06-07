@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "../App.css";
@@ -77,12 +78,14 @@ function Body() {
         )}
       </div>
       {posts.map((post) => (
+        
         <PostListItem
-          key={post.id}
+          key={post._id}
           title={post.title}
           submitted={timeAgo(post.createdAt)}
           body={post.body}
           comments={post.comments.length}
+          id={post._id}
         />
       ))}
     </>

@@ -4,16 +4,22 @@ function postListItem({
   title,
   submitted,
   body,
-  comments
+  comments,
+  id,
 }: {
   title: string;
   submitted: string;
   body: string;
   comments: number;
+  _id: string;
 }) {
   return (
     <div className="post-list-item">
-      <a className="title" href="#"><h2>{title}</h2></a>
+      <h2>
+        <a className="title" href={id}>
+          {title}
+        </a>
+      </h2>
       <p className="date-info">{submitted}</p>
       <p>{body}</p>
       <a href="#">{comments} comments</a>

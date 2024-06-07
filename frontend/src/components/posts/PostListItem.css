@@ -12,10 +12,7 @@
 a.title {
   color: #ff6f00;
   text-decoration: none;
-}
-
-a.title:visited {
-
+  cursor: pointer;
 }
 
 .date-info {
