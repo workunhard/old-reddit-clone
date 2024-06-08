@@ -11,7 +11,7 @@ function postListItem({
   submitted: string;
   body: string;
   comments: number;
-  _id: string;
+  id: string;
 }) {
   return (
     <div className="post-list-item">
