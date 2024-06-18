@@ -91,9 +91,10 @@ app.get("/get-post", async (req, res) => {
 });
 
 // Add comment to post
-app.post("/:id/add-comment", async (req, res) => {
-  const postId = req.params.id;
-  const { comment, user } = req.body;
+app.post("/:postId/add-comment", async (req, res) => {
+  const postId = req.params.postId;
+  const { comment } = req.body;
+  console.log(comment);
   try {
     await db
       .collection("posts")
@@ -136,7 +137,7 @@ app.post("/create-post", async (req, res) => {
 
   const createdAt = new Date().toISOString();
   const lastActivity = new Date();
-  const comments: string[] = [];
+  const comments: object[] = [];
 
   try {
     const newDocRef = await db.collection("posts").add({
