@@ -17,6 +17,11 @@
   padding: 20px;
 }
 
+.create-post-btn {
+  background-color: #ff6f00;
+  margin: 10px 0 20px 0;
+}
+
 .footer-content {
   flex-shrink: 0;
 }

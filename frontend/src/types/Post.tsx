@@ -5,4 +5,5 @@ export default interface Post {
     createdAt: string;
     numComments: { length: number };
     comments: string[];
+    author: string;
   }

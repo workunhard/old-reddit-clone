@@ -1,19 +1,17 @@
-import "./CreatePostModal.css";
-import React from "react";
+import "../../styles/CreatePostModal.css";
+import React, { useState } from "react";
 
-function Modal({
-  closeModal,
-  submitPost,
-}: {
+interface ModalProps {
   closeModal: () => void;
   submitPost: (title: string, body: string) => void;
-}) {
+}
+
+const CreatePostModal: React.FC<ModalProps> = ({ closeModal, submitPost }) => {
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const form = e.target as HTMLFormElement;
-    const formData = new FormData(form);
-    const title = formData.get("title") as string;
-    const body = formData.get("body") as string;
     await submitPost(title, body);
   };
 
@@ -28,19 +26,23 @@ function Modal({
           <input
             type="text"
             className="post-title-field"
-            name="title"
             placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
           />
           <textarea
             className="post-area"
-            name="body"
             placeholder="Type your post here..."
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+            required
           />
           <button type="submit">Post</button>
         </form>
       </div>
     </div>
   );
-}
+};
 
-export default Modal;
+export default CreatePostModal;

@@ -1,14 +1,15 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/App.css";
 import CreatePostModal from "./posts/CreatePostModal";
 import PostListItem from "./posts/PostListItem";
 import Post from "../types/Post";
-
+import { useAuth } from "../hooks/AuthContext";
 
 function Body() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
+  const { authToken, displayName } = useAuth();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -20,13 +21,17 @@ function Body() {
 
   const fetchPosts = () => {
     axios
-      .get("http://localhost:5000/get-posts")
+      .get("http://localhost:5000/get-posts", {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      })
       .then((response) => {
-        // Sort posts based on lastActivity timestamp in descending order
+        // Sort posts based on lastActivity timestamp in descending order // TODO: post ranking
         const sortedPosts = response.data.sort((a: Post, b: Post) => {
           const dateA = new Date(a.createdAt).getTime(); // Convert to milliseconds
           const dateB = new Date(b.createdAt).getTime(); // Convert to milliseconds
-          return dateB - dateA; // Sort in descending order
+          return dateB - dateA;
         });
         setPosts(sortedPosts);
       })
@@ -37,12 +42,24 @@ function Body() {
 
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [authToken]);
 
   const submitPost = async (title: string, body: string) => {
-    await axios.post("http://localhost:5000/create-post", { title, body });
-    fetchPosts(); // Fetch posts again after submitting a new post
-    closeModal();
+    try {
+      await axios.post(
+        "http://localhost:5000/create-post",
+        { title, body, displayName }, // Pass displayName obtained from useAuth
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+      fetchPosts();
+      closeModal();
+    } catch (error) {
+      console.error("Error creating post:", error);
+    }
   };
 
   function timeAgo(postDate: string): string {
@@ -73,7 +90,10 @@ function Body() {
   return (
     <>
       <div>
-        <button onClick={showModal}>Create a Post</button>
+        <button className="create-post-btn" onClick={showModal}>
+          {" "}
+          + Create Post
+        </button>
         {isModalOpen && (
           <CreatePostModal submitPost={submitPost} closeModal={closeModal} />
         )}
@@ -86,6 +106,7 @@ function Body() {
           body={post.body}
           comments={post.comments.length}
           id={post._id}
+          author={post.author}
         />
       ))}
     </>
