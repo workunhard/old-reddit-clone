@@ -3,7 +3,7 @@ import Footer from "./components/Footer";
 import TopNav from "./components/TopNav";
 import Body from "./components/Body";
 import PostPage from "./components/PostPage";
-import "./App.css";
+import "./styles/App.css";
 
 function App() {
   return (

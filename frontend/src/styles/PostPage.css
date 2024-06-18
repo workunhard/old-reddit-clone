@@ -1,12 +1,24 @@
 .post-container {
   display: flex;
   flex-direction: column;
+  gap: 20px;
+  padding: 20px 0px;
+  border-radius: 2px;
+  border-bottom: 1px solid rgb(65, 65, 65);
+}
+
+.post-content-container {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   box-sizing: border-box;
-  margin: 20px 0px;
+  margin: 0px 0px 20px 0px;
   min-width: 320px;
   max-width: 800px;
+}
 
+.post-content-container h2 {
+  margin: 0;
 }
 
 .comment-input {
@@ -26,6 +38,7 @@
 .submit-btn {
   background-color: #ff6f00;
   margin: 10px 0 20px 0;
+  width: 8rem;
 }
 
 .comment-section {

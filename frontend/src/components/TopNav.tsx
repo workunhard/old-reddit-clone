@@ -1,4 +1,4 @@
-import "../styles//TopNav.css";
+import "../styles/TopNav.css";
 
 function TopNav() {
   return (

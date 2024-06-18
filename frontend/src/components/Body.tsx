@@ -1,13 +1,14 @@
-import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import "../App.css";
+import "../styles/App.css";
 import CreatePostModal from "./posts/CreatePostModal";
 import PostListItem from "./posts/PostListItem";
+import Post from "../types/Post";
+
 
 function Body() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<Post[]>([]);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -22,7 +23,7 @@ function Body() {
       .get("http://localhost:5000/get-posts")
       .then((response) => {
         // Sort posts based on lastActivity timestamp in descending order
-        const sortedPosts = response.data.sort((a, b) => {
+        const sortedPosts = response.data.sort((a: Post, b: Post) => {
           const dateA = new Date(a.createdAt).getTime(); // Convert to milliseconds
           const dateB = new Date(b.createdAt).getTime(); // Convert to milliseconds
           return dateB - dateA; // Sort in descending order
@@ -78,7 +79,6 @@ function Body() {
         )}
       </div>
       {posts.map((post) => (
-        
         <PostListItem
           key={post._id}
           title={post.title}
