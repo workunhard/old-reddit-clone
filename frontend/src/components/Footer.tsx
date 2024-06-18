@@ -5,7 +5,7 @@ function Footer() {
   return (
     <footer className="footer">
         <div className="footer-left">
-          <p>&copy; 2024 Reddit Clone</p>
+          <p>&copy; 2024 Old Reddit Clone</p>
         </div>
         <div className="footer-center">
           <a href="/Code" className="footer-link">

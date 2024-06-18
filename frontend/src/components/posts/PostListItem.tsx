@@ -17,14 +17,19 @@ function postListItem({
 }) {
   return (
     <div className="post-list-item">
-      <h2>
+      <h2 className="post-header">
         <a className="title" href={id}>
           {title}
-        </a><p>{author}</p>
+        </a>
       </h2>
-      <p className="date-info">{submitted}</p>
-      <p>{body}</p>
-      <a href="#">{comments} comments</a>
+      <p className="date-info">
+        Submitted {submitted} by{" "}
+        <a className="author" href="#">
+          {author}
+        </a>
+      </p>
+      <p className="post-body">{body}</p>
+      <a href={id}>{comments} comments</a>
     </div>
   );
 }

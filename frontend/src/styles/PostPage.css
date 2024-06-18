@@ -17,6 +17,14 @@
   max-width: 800px;
 }
 
+.post-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
 .post-content-container h2 {
   margin: 0;
 }
@@ -44,13 +52,13 @@
 .comment-section {
   display: flex;
   flex-direction: column;
-  gap: 10px;
 }
 
 .comment-container {
+  border-left: 0.5rem solid #ff6f00;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  margin-top:2px;
   padding: 10px;
   border-radius: 8px;
   background-color: rgb(65, 65, 65);

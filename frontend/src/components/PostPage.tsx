@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/PostPage.css";
-import Post from "../types/Post"; // Make sure this path is correct
+import Post from "../types/Post";
 
 function PostPage() {
   const { postId } = useParams<{ postId: string }>();
@@ -22,7 +22,6 @@ function PostPage() {
     axios
       .post(`http://localhost:5000/${postId}/add-comment`, { comment })
       .then(() => {
-        // Update the post with the new comment
         if (post) {
           setPost({ ...post, comments: [...post.comments, comment] });
         }
@@ -35,7 +34,9 @@ function PostPage() {
         <>
           <div className="post-container">
             <div className="post-content-container">
-              <h2>{post.title}</h2>
+              <div className="post-header">
+                <h2>{post.title}</h2>
+              </div>
               <p>{post.body}</p>
             </div>
             <div className="comment-input">
@@ -46,9 +47,10 @@ function PostPage() {
             </div>
           </div>
           <div className="comments-section">
-            <h3>Comments</h3>
+            <h3>Comments ({post.comments.length})</h3>
             {post.comments.map((comment: string, index: number) => (
               <div key={index} className="comment-container">
+                {/* <a href="#" className="comment-user">{comment}</a> */}
                 <p>{comment}</p>
               </div>
             ))}

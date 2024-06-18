@@ -15,8 +15,14 @@
   
   .nav-right {
     display: flex;
-    gap: 10px;
+    gap: 30px;
   }
+
+  a.profile-name {
+    display: flex;
+    align-items: center;
+    color: #ff6f00;
+    text-decoration: none;}
   
   .nav-button {
     padding: 10px 15px;

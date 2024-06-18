@@ -1,12 +1,18 @@
 .post-list-item {
   border: 1px solid #ccc;
   background-color: #3f3f3f;
-  padding-left: 1rem;
+  padding: 0.5rem 0rem 0.5rem 1rem;
 }
 
-.post-list-item h2 {
-  margin-bottom: 3px;
+.post-header {
+  display: flex;
+  flex-direction: row;
+  margin: 0px 0px 3px 0px;
   font-size: 1.2rem;
+}
+
+.post-body {
+  margin: 3px 0px 3px 0px;
 }
 
 a.title {
@@ -15,8 +21,14 @@ a.title {
   cursor: pointer;
 }
 
+a.author {
+  color: #ff6f00;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .date-info {
   font-size: 0.8rem;
   color: #ccc;
-  margin-top: 3px;
+  margin: 3px 0px 3px 0px;
 }
