@@ -5,10 +5,10 @@ A simple (Old) Reddit clone built with React, Express, and Firebase (auth + Fire
 I've always preferred the aesthetic and functionality of Old Reddit over the 2018 redesign. What I appreciate most is its efficient use of screen real estate. In Old Reddit, each post is allocated its own compact row, allowing users to view approximately 15 post titles (on desktop, at least) simultaneously. This layout facilitated a quick and comprehensive overview of content, minimizing the need for excessive scrolling. In contrast, the redesign emphasizes prolonged scrolling -- not unlike virtually every other social media app today -- and displays more content from individual posts (including everyone's favorite sponsored/promoted content) than I find necessary.
 
 How it was:
-![Glorious Old Reddit](image.png)
+![Glorious Old Reddit](./resources/image-2.png)
 
 Hows it's going:
-![New Reddit](image-1.png)
+![New Reddit](./resources/image-1.png)
 
 I felt like recreating the Old Reddit aesthetic was complex enough to be gratifying while simple enough so as not to draw away from the main purpose of this exercise: to design and build a full-stack application with React in the front, and Express + Firebase in the back.
 
