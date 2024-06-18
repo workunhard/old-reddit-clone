@@ -7,6 +7,7 @@ import Post from "../types/Post";
 import { useAuth } from "../hooks/AuthContext";
 
 function Body() {
+  const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
   const { authToken, displayName } = useAuth();
@@ -42,6 +43,7 @@ function Body() {
 
   useEffect(() => {
     fetchPosts();
+    setLoading(false);
   }, [authToken]);
 
   const submitPost = async (title: string, body: string) => {
@@ -89,28 +91,34 @@ function Body() {
 
   return (
     <>
-      <div>
-        <button className="create-post-btn" onClick={showModal}>
-          {" "}
-          + Create Post
-        </button>
-        {isModalOpen && (
-          <CreatePostModal submitPost={submitPost} closeModal={closeModal} />
-        )}
-      </div>
-      {posts.map((post) => (
-        <PostListItem
-          key={post._id}
-          title={post.title}
-          submitted={timeAgo(post.createdAt)}
-          body={post.body}
-          comments={post.comments.length}
-          id={post._id}
-          author={post.author}
-        />
-      ))}
+      {loading ? (
+        <p>Loading Posts...</p>
+      ) : (
+        <>
+          <div>
+            <button className="create-post-btn" onClick={showModal}>
+              + Create Post
+            </button>
+            {isModalOpen && (
+              <CreatePostModal submitPost={submitPost} closeModal={closeModal} />
+            )}
+          </div>
+          {posts.map((post) => (
+            <PostListItem
+              key={post._id}
+              title={post.title}
+              submitted={timeAgo(post.createdAt)}
+              body={post.body}
+              comments={post.comments.length}
+              id={post._id}
+              author={post.author}
+            />
+          ))}
+        </>
+      )}
     </>
   );
+  
 }
 
 export default Body;
