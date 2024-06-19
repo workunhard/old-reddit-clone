@@ -11,6 +11,7 @@ import {
 const serviceAccount = require("./serviceAccountKey.json");
 import auth from "./firebase-config";
 import { v4 as uuidv4 } from "uuid";
+import Comment from "./util/Comment";
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
@@ -104,13 +105,15 @@ app.post("/:postId/add-comment", async (req, res) => {
   const postId = req.params.postId;
   const { comment } = req.body;
   const id = uuidv4();
-  const newComment = {
+  const newComment: Comment = {
     _id: id,
-    parentID: postId,
-    comments: [],
     body: comment.body,
     author: comment.author,
+    parentID: postId,
+    comments: [],
     createdAt: new Date().toISOString(),
+    upvotes: 0,
+    downvotes: 0,
   };
 
   try {
@@ -150,7 +153,7 @@ app.post("/create-post", async (req, res) => {
 
   const createdAt = new Date().toISOString();
   const lastActivity = new Date();
-  const comments: object[] = [];
+  const comments: Comment[] = [];
 
   try {
     const newDocRef = await db.collection("posts").add({
@@ -160,6 +163,8 @@ app.post("/create-post", async (req, res) => {
       createdAt,
       lastActivity,
       comments,
+      upvotes: 0,
+      downvotes: 0,
     });
 
     const postId = newDocRef.id;
@@ -167,6 +172,41 @@ app.post("/create-post", async (req, res) => {
     res.status(201).send("Post created successfully");
   } catch (error) {
     console.error("Error creating post:", error);
+    res.status(500).send(error);
+  }
+});
+
+// Upvote post
+app.post("/posts/:postId/vote", async (req, res) => {
+  const postId = req.params.postId;
+  const vote = req.body.vote;
+  console.log("Received upvote request for post:", postId);
+
+  try {
+    const postRef = await db.collection("posts").doc(postId).get();
+    if (!postRef.exists) {
+      return res.status(404).send("Post not found");
+    }
+
+    let postData = postRef.data();
+    if (!postData || typeof postData.upvotes !== "number") {
+      postData = { upvotes: 0 };
+    }
+
+    const updatedUpvotes = postData.upvotes + (vote === "up" ? 1 : -1);
+
+    await db.collection("posts").doc(postId).update({
+      upvotes: updatedUpvotes,
+    });
+
+    const updatedPost = {
+      ...postData,
+      upvotes: updatedUpvotes,
+    };
+    console.log("Updated post:" + postId + " with upvote (" + updatedUpvotes + ")");
+    res.status(200).send(updatedPost);
+  } catch (error) {
+    console.error("Error upvoting post:", error);
     res.status(500).send(error);
   }
 });
