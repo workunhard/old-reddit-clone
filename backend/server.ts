@@ -2,21 +2,24 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import admin from "firebase-admin";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 const serviceAccount = require("./serviceAccountKey.json");
 import auth from "./firebase-config";
+import { v4 as uuidv4 } from "uuid";
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
 });
 
 const db = admin.firestore();
-
 dotenv.config();
-
 const port = process.env.PORT || 5000;
 const app = express();
-
 const corsOptions = {
   origin: "http://localhost:5173",
   optionsSuccessStatus: 200,
@@ -30,36 +33,42 @@ app.get("/", (req, res) => {
 });
 
 // Registration
-app.post('/register', async (req, res) => {
+app.post("/register", async (req, res) => {
   const { email, password, displayName } = req.body;
 
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     const user = userCredential.user;
 
     await updateProfile(user, { displayName });
-
-    console.log('User registered with display name:', displayName);
+    console.log("User registered with display name:", displayName);
     res.status(201).send(user);
   } catch (error) {
-    console.error('Error registering user:', error);
+    console.error("Error registering user:", error);
     res.status(500).send(error);
   }
 });
 
 // Login
-app.post('/login', async (req, res) => {
+app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     const user = userCredential.user;
     const token = await user.getIdToken();
     const { displayName } = user;
-
     res.status(200).send({ displayName, token });
   } catch (error) {
-    console.error('Error logging in:', error);
+    console.error("Error logging in:", error);
     res.status(500).send(error);
   }
 });
@@ -94,15 +103,21 @@ app.get("/get-post", async (req, res) => {
 app.post("/:postId/add-comment", async (req, res) => {
   const postId = req.params.postId;
   const { comment } = req.body;
-  console.log(comment);
+  const id = uuidv4();
+  const newComment = {
+    _id: id,
+    parentID: postId,
+    comments: [],
+    body: comment.body,
+    author: comment.author,
+    createdAt: new Date().toISOString(),
+  };
+
   try {
-    await db
-      .collection("posts")
-      .doc(postId)
-      .update({
-        comments: admin.firestore.FieldValue.arrayUnion(comment),
-      });
-    res.send("Comment added successfully");
+    await db.collection("posts").doc(postId).update({
+      comments: admin.firestore.FieldValue.arrayUnion(newComment),
+    });
+    res.send(newComment);
   } catch (error) {
     res.status(500).send(error);
   }
@@ -128,9 +143,7 @@ app.get("/:postId", (req, res) => {
 
 // Create post
 app.post("/create-post", async (req, res) => {
-  const { title, body, displayName } = req.body; // Assuming displayName is provided via auth
-
-  // Check if displayName is provided
+  const { title, body, displayName } = req.body;
   if (!displayName) {
     return res.status(400).send("Display name is required");
   }
@@ -151,7 +164,6 @@ app.post("/create-post", async (req, res) => {
 
     const postId = newDocRef.id;
     await db.collection("posts").doc(postId).update({ _id: postId });
-
     res.status(201).send("Post created successfully");
   } catch (error) {
     console.error("Error creating post:", error);
