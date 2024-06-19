@@ -1,4 +1,4 @@
-# reddit-clone
+# old-reddit-clone
 A simple (Old) Reddit clone built with React, Express, and Firebase (auth + Firestore)
 
 ## Background
