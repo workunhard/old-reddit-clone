@@ -15,8 +15,8 @@ I felt like recreating the Old Reddit aesthetic was complex enough to be gratify
 ## Features
 * User authentication
 * Create, read, update, and delete(TODO) posts
-* Upvote and downvote posts
 * Comment on posts
+* TODO:Upvote and downvote posts
 * TODO: Upvote and downvote comments
 * TODO: Edit and delete comments
 * TODO: View user profiles
