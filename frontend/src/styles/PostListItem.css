@@ -41,3 +41,24 @@ a.author {
   color: #ccc;
   margin: 3px 0px 3px 0px;
 }
+
+.close-modal-btn {
+  background-color: #ff6f00;
+  color: white;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 2rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+
+}
+
+.submit-btn {
+  background-color: #ff6f00;
+  margin: 10px 0 20px 0;
+  width: 100%;
+}

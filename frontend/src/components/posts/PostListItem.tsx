@@ -1,10 +1,10 @@
-import VoteIndicator from "../VoteIndicator";
-import "./PostListItem.css";
-import axios from "axios";
-import { useAuth } from "../../hooks/AuthContext";
-import Post from "../../types/Post";
-import timeAgo from "../../hooks/TimeAgoUtil";
+import "../../styles/PostListItem.css";
 import { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+import axios from "axios";
+import VoteIndicator from "../VoteIndicator";
+import Post from "../../types/Post";
+import timeAgo from "../../util/TimeAgoUtil";
 
 function PostListItem({ post }: { post: Post }) {
   const { authToken } = useAuth();

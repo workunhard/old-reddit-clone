@@ -1,11 +1,11 @@
+import "../styles/PostPage.css";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useAuth } from "../context/AuthContext";
 import axios from "axios";
-import "../styles/PostPage.css";
-import { useAuth } from "../hooks/AuthContext";
 import Post from "../types/Post";
 import Comment from "../types/Comment";
-import timeAgo from "../hooks/TimeAgoUtil";
+import timeAgo from "../util/TimeAgoUtil";
 import VoteIndicator from "./VoteIndicator";
 
 function PostPage() {

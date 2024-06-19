@@ -3,9 +3,9 @@ import Footer from "./components/Footer";
 import TopNav from "./components/TopNav";
 import Body from "./components/Body";
 import PostPage from "./components/PostPage";
-import Login from "./components/login/Login";
+import Login from "./components/Login";
 import "./styles/App.css";
-import { AuthProvider } from "./hooks/AuthContext";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (

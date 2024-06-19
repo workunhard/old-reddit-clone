@@ -1,17 +1,18 @@
 import "../styles/TopNav.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/AuthContext";
+import { useAuth } from "../context/AuthContext";
 
 function TopNav() {
-  const { authToken, setAuthToken } = useAuth();
+  const { authToken, displayName, setAuthToken, setDisplayName } = useAuth();
   const loggedIn = !!authToken;
-  const [currUser] = useState(localStorage.getItem("displayName"));
+  const [currUser] = useState(displayName);
   const navigate = useNavigate();
 
   const handleLogout = () => {
     setAuthToken(null);
-    navigate('/login');
+    setDisplayName(null);
+    navigate('/');
   };
 
   return (

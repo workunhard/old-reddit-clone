@@ -22,7 +22,7 @@ const CreatePostModal: React.FC<ModalProps> = ({ closeModal, submitPost }) => {
       <div className="modal-content">
         <div className="header">
           <h2>Create a Post</h2>
-          <button onClick={closeModal}>x</button>
+          <button onClick={closeModal} className="close-modal-btn">X</button>
         </div>
         <form className="form-fields" onSubmit={handleSubmit}>
           <input
@@ -40,7 +40,7 @@ const CreatePostModal: React.FC<ModalProps> = ({ closeModal, submitPost }) => {
             onChange={(e) => setBody(e.target.value)}
             required
           />
-          <button type="submit">Post</button>
+          <button type="submit" className="submit-btn">Post</button>
         </form>
       </div>
     </div>

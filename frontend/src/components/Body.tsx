@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
 import "../styles/App.css";
+import React, { useState, useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
+import axios from "axios";
 import CreatePostModal from "./posts/CreatePostModal";
 import PostListItem from "./posts/PostListItem";
 import Post from "../types/Post";
-import { useAuth } from "../hooks/AuthContext";
 
 function Body() {
   const [loading, setLoading] = useState(true);
@@ -47,6 +47,11 @@ function Body() {
   }, [authToken]);
 
   const submitPost = async (title: string, body: string) => {
+    if (!authToken) {
+      alert("You must be logged in to create a post");
+      return;
+    }
+
     try {
       await axios.post(
         "http://localhost:5000/create-post",
@@ -70,10 +75,27 @@ function Body() {
         <p>Loading Posts...</p>
       ) : (
         <>
+          {authToken ? (
+            <div>
+              <button
+                className={`create-post-btn ${!authToken ? "disabled" : ""}`}
+                onClick={showModal}
+                disabled={!authToken}
+              >
+                + Create Post
+              </button>
+
+              {isModalOpen && (
+                <CreatePostModal
+                  submitPost={submitPost}
+                  closeModal={closeModal}
+                />
+              )}
+            </div>
+          ) : (
+            <p className="login-message"><a href="/login">Sign in</a> to post, comment, and vote!</p>
+          )}
           <div>
-            <button className="create-post-btn" onClick={showModal}>
-              + Create Post
-            </button>
             {isModalOpen && (
               <CreatePostModal
                 submitPost={submitPost}
