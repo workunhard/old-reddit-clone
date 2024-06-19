@@ -96,7 +96,11 @@ function PostPage() {
         <>
           <div className="post-area-container">
             <div className="content-container">
-              <VoteIndicator upvotes={post.upvotes} downvotes={post.downvotes} submitVote={submitVote} />
+              <VoteIndicator
+                upvotes={post.upvotes}
+                downvotes={post.downvotes}
+                submitVote={submitVote}
+              />
               <div className="post-content-container">
                 <div className="post-header">
                   <h2>{post.title}</h2>

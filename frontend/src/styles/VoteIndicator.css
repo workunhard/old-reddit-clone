@@ -1,26 +1,27 @@
 .voting-controls {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .upvote, .downvote {
-    width: 36px;
-    height: 36px;
-    border-radius:2rem;
-  }
-  
-  .voteBalance {
-    font-size: 1.2rem;
-    font-weight: 800;
-  }
-  
-  .positive {
-    color: #ff6f00;
-  }
-  
-  .negative {
-    color: #67DCF9;
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.upvote,
+.downvote {
+  width: 36px;
+  height: 36px;
+  border-radius: 2rem;
+}
+
+.voteBalance {
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.positive {
+  color: #ff6f00;
+}
+
+.negative {
+  color: #67dcf9;
+}

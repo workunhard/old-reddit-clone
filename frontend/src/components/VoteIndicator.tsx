@@ -22,14 +22,18 @@ function VoteIndicator({
       <img
         src={upvoteHovered ? arrowUpHovered : arrowUp}
         alt="upvote"
-        className={'upvote'}
+        className={"upvote"}
         onClick={() => submitVote("up")}
         onMouseEnter={() => setUpvoteHovered(true)}
         onMouseLeave={() => setUpvoteHovered(false)}
       />
-      <span className={`voteBalance ${(upvotes - downvotes) >= 0 ? 'positive' : 'negative'}`}>
-  {upvotes - downvotes}
-</span>
+      <span
+        className={`voteBalance ${
+          upvotes - downvotes >= 0 ? "positive" : "negative"
+        }`}
+      >
+        {upvotes - downvotes}
+      </span>
       <img
         src={downvoteHovered ? arrowDownHovered : arrowDown}
         alt="downvote"

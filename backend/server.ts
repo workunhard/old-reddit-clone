@@ -117,9 +117,12 @@ app.post("/:postId/add-comment", async (req, res) => {
   };
 
   try {
-    await db.collection("posts").doc(postId).update({
-      comments: admin.firestore.FieldValue.arrayUnion(newComment),
-    });
+    await db
+      .collection("posts")
+      .doc(postId)
+      .update({
+        comments: admin.firestore.FieldValue.arrayUnion(newComment),
+      });
     res.send(newComment);
   } catch (error) {
     res.status(500).send(error);
@@ -176,7 +179,7 @@ app.post("/create-post", async (req, res) => {
   }
 });
 
-// Upvote post
+// Vote on post
 app.post("/posts/:postId/vote", async (req, res) => {
   const postId = req.params.postId;
   const vote = req.body.vote;
@@ -203,7 +206,9 @@ app.post("/posts/:postId/vote", async (req, res) => {
       ...postData,
       upvotes: updatedUpvotes,
     };
-    console.log("Updated post:" + postId + " with upvote (" + updatedUpvotes + ")");
+    console.log(
+      "Updated post:" + postId + " with upvote (" + updatedUpvotes + ")"
+    );
     res.status(200).send(updatedPost);
   } catch (error) {
     console.error("Error upvoting post:", error);

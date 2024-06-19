@@ -44,7 +44,7 @@ function Body() {
   useEffect(() => {
     fetchPosts();
     setLoading(false);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authToken]);
 
   const submitPost = async (title: string, body: string) => {
@@ -94,7 +94,9 @@ function Body() {
               )}
             </div>
           ) : (
-            <p className="login-message"><a href="/login">Sign in</a> to post, comment, and vote!</p>
+            <p className="login-message">
+              <a href="/login">Sign in</a> to post, comment, and vote!
+            </p>
           )}
           <div>
             {isModalOpen && (

@@ -12,7 +12,7 @@ function TopNav() {
   const handleLogout = () => {
     setAuthToken(null);
     setDisplayName(null);
-    navigate('/');
+    navigate("/");
   };
 
   return (
@@ -25,7 +25,9 @@ function TopNav() {
       <div className="nav-right">
         {loggedIn ? (
           <>
-            <a className="profile-name" href="#">{currUser}</a>
+            <a className="profile-name" href="#">
+              {currUser}
+            </a>
             <button className="nav-button" onClick={handleLogout}>
               Logout
             </button>

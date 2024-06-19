@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
-const Login: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [displayName, setDisplayName] = useState('');
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [displayName, setDisplayName] = useState("");
   const [showLogin, setShowLogin] = useState(true);
   const navigate = useNavigate();
   const { setAuthToken, setDisplayName: updateDisplayName } = useAuth(); // Rename to prevent TS Error
@@ -14,14 +14,14 @@ const Login: React.FC = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/login', {
+      const response = await axios.post("http://localhost:5000/login", {
         email,
         password,
       });
       const { token, displayName } = response.data;
       setAuthToken(token);
       updateDisplayName(displayName); // from useAuth
-      navigate('/');
+      navigate("/");
     } catch (error) {
       console.error(error);
     }
@@ -30,7 +30,7 @@ const Login: React.FC = () => {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/register', {
+      const response = await axios.post("http://localhost:5000/register", {
         email,
         password,
         displayName,
@@ -62,7 +62,7 @@ const Login: React.FC = () => {
             <button type="submit">Login</button>
           </form>
           <p>
-            Not a user?{' '}
+            Not a user?{" "}
             <button onClick={() => setShowLogin(false)}>Register here</button>
           </p>
         </>
@@ -91,7 +91,7 @@ const Login: React.FC = () => {
             <button type="submit">Register</button>
           </form>
           <p>
-            Already a user?{' '}
+            Already a user?{" "}
             <button onClick={() => setShowLogin(true)}>Login here</button>
           </p>
         </>

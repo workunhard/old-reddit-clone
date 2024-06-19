@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 
 interface AuthContextType {
   authToken: string | null;
@@ -14,27 +20,33 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [authToken, setAuthToken] = useState<string | null>(localStorage.getItem('authToken'));
-  const [displayName, setDisplayName] = useState<string | null>(localStorage.getItem('displayName'));
+  const [authToken, setAuthToken] = useState<string | null>(
+    localStorage.getItem("authToken")
+  );
+  const [displayName, setDisplayName] = useState<string | null>(
+    localStorage.getItem("displayName")
+  );
 
   useEffect(() => {
     if (authToken) {
-      localStorage.setItem('authToken', authToken);
+      localStorage.setItem("authToken", authToken);
     } else {
-      localStorage.removeItem('authToken');
+      localStorage.removeItem("authToken");
     }
   }, [authToken]);
 
   useEffect(() => {
     if (displayName) {
-      localStorage.setItem('displayName', displayName);
+      localStorage.setItem("displayName", displayName);
     } else {
-      localStorage.removeItem('displayName');
+      localStorage.removeItem("displayName");
     }
   }, [displayName]);
 
   return (
-    <AuthContext.Provider value={{ authToken, setAuthToken, displayName, setDisplayName }}>
+    <AuthContext.Provider
+      value={{ authToken, setAuthToken, displayName, setDisplayName }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -44,7 +56,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
