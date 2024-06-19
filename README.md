@@ -2,7 +2,7 @@
 A simple (Old) Reddit clone built with React, Express, and Firebase (auth + Firestore)
 
 ## Background
-I've always preferred the aesthetic and functionality of Old Reddit over the 2018 redesign, specifically its use of screen real estate. In Old Reddit, each post is allocated its own compact row, allowing users to view approximately 15 post titles simultaneously on desktop. This layout facilitates a quick and comprehensive overview of content, minimizing the need for excessive scrolling. In contrast, the redesign emphasizes prolonged scrolling -- not unlike virtually every other social media app today -- and displays more content from individual posts (including sponsored/promoted ads) than I find necessary.
+I've always preferred the aesthetic and functionality of Old Reddit over the 2018 redesign, specifically its use of screen real estate. In Old Reddit, each post is allocated its own compact row, allowing users to view approximately 15 post titles simultaneously on desktop. This layout facilitates a quick and comprehensive overview of content, minimizing the need for excessive scrolling. In contrast, the redesign emphasizes prolonged scrolling -- not unlike virtually every other social media app today -- and displays more content from individual posts (including sponsored/promoted ads) than I find necessary. Examples:
 
 How it was:
 ![Glorious Old Reddit](./resources/image-2.png)
@@ -10,7 +10,7 @@ How it was:
 Hows it's going:
 ![New Reddit](./resources/image-1.png)
 
-I felt like recreating the Old Reddit aesthetic was complex enough to be gratifying while simple enough so as not to draw away from the main purpose of this exercise: to design and build a full-stack application with React in the front, and Express + Firebase in the back.
+I felt like recreating the Old Reddit aesthetic was complex enough to be gratifying while simple enough so as not to draw away from the main purpose of this exercise: to rapidly design/build a full-stack application with React in the front, and Express + Firebase in the back.
 
 ## Features
 * User authentication
@@ -29,7 +29,7 @@ I felt like recreating the Old Reddit aesthetic was complex enough to be gratify
 * Good ol' CSS
 
 ## Learnings
-* Designing component interactions by the seat of your pants / "drawing from reference" isn't a great approach -- diagramming the data sources and which individual props would be needed by each component would've saved a lot of refactoring for incremental changes to the data model (i.e., better to build complete interfaces/types upfront than add fields/properties piecemeal as needed). 
+* Designing component interactions by the seat of your pants / "drawing from reference" is bad -- diagramming data models and pre-emptively identifying common functionalities makes for lighter refactoring.
 * Firebase is criminally easy to set up, but Firestore reads can quickly get out of hand if you're not careful with your queries and/or you have multiple tabs of the Firestore Console open.
 * The upvote/downvote system is roughly implemented; votes can be cast and are appropriately stored, however I need to solve the issue of users being able to cast multiple votes on the same post/comment. This will likely involve storing a list of users who have voted on a post/comment and checking that list before allowing a vote to be cast. The Post/Comment interfaces must grow.
 
