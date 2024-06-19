@@ -27,7 +27,7 @@ function VoteIndicator({
         onMouseEnter={() => setUpvoteHovered(true)}
         onMouseLeave={() => setUpvoteHovered(false)}
       />
-      <span className={`voteBalance ${upvotes - downvotes} > 0 ? 'positive' : 'negative'}`}>
+      <span className={`voteBalance ${(upvotes - downvotes) >= 0 ? 'positive' : 'negative'}`}>
   {upvotes - downvotes}
 </span>
       <img
