@@ -5,7 +5,6 @@ import CreatePostModal from "./posts/CreatePostModal";
 import PostListItem from "./posts/PostListItem";
 import Post from "../types/Post";
 import { useAuth } from "../hooks/AuthContext";
-import timeAgo from "../hooks/TimeAgoUtil";
 
 function Body() {
   const [loading, setLoading] = useState(true);
@@ -76,25 +75,19 @@ function Body() {
               + Create Post
             </button>
             {isModalOpen && (
-              <CreatePostModal submitPost={submitPost} closeModal={closeModal} />
+              <CreatePostModal
+                submitPost={submitPost}
+                closeModal={closeModal}
+              />
             )}
           </div>
           {posts.map((post) => (
-            <PostListItem
-              key={post._id}
-              title={post.title}
-              submitted={timeAgo(post.createdAt)}
-              body={post.body}
-              comments={post.comments.length}
-              id={post._id}
-              author={post.author}
-            />
+            <PostListItem key={post._id} post={post} />
           ))}
         </>
       )}
     </>
   );
-  
 }
 
 export default Body;

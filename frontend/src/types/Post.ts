@@ -4,6 +4,8 @@ export default interface Post {
   body: string;
   createdAt: string;
   numComments: number;
-  comments: Comment[];
+  upvotes: number;
+  downvotes: number;
   author: string;
+  comments: Comment[];
 }

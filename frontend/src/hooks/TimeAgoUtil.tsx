@@ -1,9 +1,9 @@
 export default function timeAgo(postDate: string): string {
     const now = new Date();
-    const original = new Date(postDate);
+    const then = new Date(postDate);
 
     const differenceInSeconds = Math.floor(
-      (now.getTime() - original.getTime()) / 1000
+      (now.getTime() - then.getTime()) / 1000
     );
 
     const minutes = Math.floor(differenceInSeconds / 60);
