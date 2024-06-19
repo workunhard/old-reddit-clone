@@ -1,5 +1,5 @@
 import "../styles/App.css";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import CreatePostModal from "./posts/CreatePostModal";
@@ -44,6 +44,7 @@ function Body() {
   useEffect(() => {
     fetchPosts();
     setLoading(false);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authToken]);
 
   const submitPost = async (title: string, body: string) => {
