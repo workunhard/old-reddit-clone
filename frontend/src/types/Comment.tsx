@@ -3,6 +3,7 @@ export default interface Comment {
     body: string;
     author: string;
     parentID: string;
-    children: Comment[];
+    comments?: Comment[];
     createdAt: string;
-}
+  }
+  

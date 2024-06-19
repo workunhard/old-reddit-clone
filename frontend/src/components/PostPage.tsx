@@ -2,11 +2,15 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/PostPage.css";
+import { useAuth } from "../hooks/AuthContext";
 import Post from "../types/Post";
+import Comment from "../types/Comment";
+import timeAgo from "../hooks/TimeAgoUtil";
 
 function PostPage() {
   const { postId } = useParams<{ postId: string }>();
   const [post, setPost] = useState<Post | null>(null);
+  const { authToken, displayName } = useAuth();
 
   useEffect(() => {
     axios.get(`http://localhost:5000/${postId}`).then((response) => {
@@ -15,19 +19,60 @@ function PostPage() {
   }, [postId]);
 
   const addComment = () => {
-    const comment =
+    if (!authToken) {
+      alert("You must be logged in to comment");
+      return;
+    }
+
+    const commentBody =
       document.querySelector<HTMLTextAreaElement>("textarea")?.value;
-    if (!comment) return;
+    if (!commentBody) return;
+
+    const newComment: Comment = {
+      _id: "temp-id-" + new Date().getTime(), // Temporary ID
+      body: commentBody,
+      author: displayName || "Anonymous",
+      parentID: postId as string,
+      comments: [],
+      createdAt: new Date().toISOString(),
+    };
 
     axios
-      .post(`http://localhost:5000/${postId}/add-comment`, { comment })
-      .then(() => {
+      .post(`http://localhost:5000/${postId}/add-comment`, {
+        comment: newComment,
+      })
+      .then((response) => {
+        const updatedComment = response.data;
         if (post) {
-          setPost({ ...post, comments: [...post.comments, comment] });
+          setPost({ ...post, comments: [...post.comments, updatedComment] });
         }
       });
+
   };
 
+  const renderComments = (comments: Comment[]) => {
+    return comments.map((comment: Comment) => (
+      <div key={comment._id} className="comment-container">
+        <div className="comment-header">
+          <a href="#" className="comment-author">
+            {comment.author}
+          </a>
+          <p>{timeAgo(comment.createdAt)}</p>
+        </div>
+        <p>{comment.body}</p>
+        <a href="#" className="reply-link">
+          reply(WIP)
+        </a>
+        {comment.comments && comment.comments.length > 0 && (
+          <div className="nested-comments">
+            {renderComments(comment.comments)}
+          </div>
+        )}
+      </div>
+    ));
+  };
+
+  //TODO: solve the error re post.comments not being recognized as a Comment[]
   return (
     <>
       {post ? (
@@ -36,6 +81,12 @@ function PostPage() {
             <div className="post-content-container">
               <div className="post-header">
                 <h2>{post.title}</h2>
+                <p className="submission-info">
+                  Submitted {timeAgo(post.createdAt)} by{" "}
+                  <a href="#" className="author">
+                    {post.author}
+                  </a>
+                </p>
               </div>
               <p>{post.body}</p>
             </div>
@@ -43,17 +94,12 @@ function PostPage() {
               <textarea placeholder="Add a comment" />
               <button className="submit-btn" onClick={addComment}>
                 Submit
-              </button>
+              </button> 
             </div>
           </div>
           <div className="comments-section">
             <h3>Comments ({post.comments.length})</h3>
-            {post.comments.map((comment: string, index: number) => (
-              <div key={index} className="comment-container">
-                {/* <a href="#" className="comment-user">{comment}</a> */}
-                <p>{comment}</p>
-              </div>
-            ))}
+            {renderComments(post.comments)}
           </div>
         </>
       ) : (

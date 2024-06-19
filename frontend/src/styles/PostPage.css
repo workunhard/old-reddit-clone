@@ -19,10 +19,12 @@
 
 .post-header {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+}
+
+p.submission-info {
+  margin: 0;
+  font-size: 0.8rem;
 }
 
 .post-content-container h2 {
@@ -62,4 +64,21 @@
   padding: 10px;
   border-radius: 8px;
   background-color: rgb(65, 65, 65);
+}
+
+.comment-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.comment-header a {
+  color: #fe7d1a;
+}
+
+.comment-header p {
+  margin: 0;
+  padding-left: 10px;
+  font-style: italic;
+  font-size: 0.8rem;
 }
