@@ -10,11 +10,12 @@ const Login = () => {
   const [showLogin, setShowLogin] = useState(true);
   const navigate = useNavigate();
   const { setAuthToken, setDisplayName: updateDisplayName } = useAuth(); // Rename to prevent TS Error
+  const baseUrl = "http://localhost:8080";
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/login", {
+      const response = await axios.post(baseUrl + "/login", {
         email,
         password,
       });
@@ -30,7 +31,7 @@ const Login = () => {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/register", {
+      const response = await axios.post(baseUrl + "/register", {
         email,
         password,
         displayName,

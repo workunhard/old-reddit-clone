@@ -14,7 +14,7 @@ function PostPage() {
   const { authToken, displayName } = useAuth();
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/${postId}`).then((response) => {
+    axios.get(`http://localhost:8080/${postId}`).then((response) => {
       setPost(response.data);
     });
   }, [postId]);
@@ -41,7 +41,7 @@ function PostPage() {
     };
 
     axios
-      .post(`http://localhost:5000/${postId}/add-comment`, {
+      .post(`http://localhost:8080/${postId}/add-comment`, {
         comment: newComment,
       })
       .then((response) => {
@@ -81,7 +81,7 @@ function PostPage() {
     }
 
     axios
-      .post(`http://localhost:5000/posts/${postId}/vote`, { vote })
+      .post(`http://localhost:8080/posts/${postId}/vote`, { vote })
       .then((response) => {
         setPost(response.data);
       })

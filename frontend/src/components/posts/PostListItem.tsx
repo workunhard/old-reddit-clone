@@ -17,7 +17,7 @@ function PostListItem({ post }: { post: Post }) {
     }
 
     axios
-      .post(`http://localhost:5000/posts/${post._id}/vote`, { vote })
+      .post(`http://localhost:8080/posts/${post._id}/vote`, { vote })
       .then((response) => {
         setUpvotes(response.data.upvotes);
         setDownvotes(response.data.downvotes);

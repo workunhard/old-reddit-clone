@@ -11,6 +11,7 @@ function Body() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
   const { authToken, displayName } = useAuth();
+  const baseUrl = "http://localhost:8080";
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -22,7 +23,7 @@ function Body() {
 
   const fetchPosts = () => {
     axios
-      .get("http://localhost:5000/get-posts", {
+      .get(baseUrl + "/get-posts", {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -55,7 +56,7 @@ function Body() {
 
     try {
       await axios.post(
-        "http://localhost:5000/create-post",
+        baseUrl + "/create-post",
         { title, body, displayName }, // Pass displayName obtained from useAuth
         {
           headers: {
