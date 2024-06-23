@@ -1,4 +1,4 @@
-# Dev Blog
+# Dev Log
 
 ## June 20, 2024 - Initial Deploy
 
@@ -9,7 +9,7 @@ First Deploy (ver022): [http://reddit-clone-backend-022.us-west-2.elasticbeansta
 - Blamed NGINX for several hours though it wasn't really NGINX's fault
 - General deployment pipeline established
 
-Environment was created in AWS Console, so the dist files are manually zipped and uploaded to an S3 bucket. The Zip file structure:
+Environment was created in AWS Console. Dist files are manually zipped and uploaded to an S3 bucket. The Zip file structure:
 ```
 └── dist/
     ├── .ebextensions

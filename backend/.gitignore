@@ -4,5 +4,4 @@ dist/
 serviceAccountKey.json
 firebase-config.ts
 *.zip
-reddit-clone.code-workspace
 
