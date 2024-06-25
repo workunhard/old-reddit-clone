@@ -1,6 +1,7 @@
 .voting-controls {
   display: flex;
   flex-direction: column;
+  flex-shrink: space-around;
   justify-content: center;
   align-items: center;
   gap: 10px;

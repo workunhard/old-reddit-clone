@@ -16,13 +16,11 @@
 }
 
 /* VoteIndicator.tsx styles */
-
 .voting-controls {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  gap: 10px;
 }
 
 .upvote,
@@ -44,6 +42,7 @@
 .negative {
   color: #67dcf9;
 }
+/* end voting css */
 
 .post-content-container {
   display: flex;

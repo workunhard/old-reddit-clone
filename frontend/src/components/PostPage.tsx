@@ -1,5 +1,5 @@
 import "../styles/PostPage.css";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
@@ -94,6 +94,7 @@ function PostPage() {
     <>
       {post ? (
         <>
+          <Link to="/">Back</Link>
           <div className="post-area-container">
             <div className="content-container">
               <VoteIndicator

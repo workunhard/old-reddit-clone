@@ -60,7 +60,7 @@ function Body() {
         { title, body, displayName }, // Pass displayName obtained from useAuth
         {
           headers: {
-            Authorization: `Bearer ${authToken}`,
+            Authorization: `Bearer ${authToken}`, // Pass token
           },
         }
       );

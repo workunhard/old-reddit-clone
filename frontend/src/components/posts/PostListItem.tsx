@@ -5,11 +5,13 @@ import axios from "axios";
 import VoteIndicator from "../VoteIndicator";
 import Post from "../../types/Post";
 import timeAgo from "../../util/TimeAgoUtil";
+import { Link } from "react-router-dom";
 
 function PostListItem({ post }: { post: Post }) {
   const { authToken } = useAuth();
   const [upvotes, setUpvotes] = useState(post.upvotes);
-  const [dowvotes, setDownvotes] = useState(post.downvotes);
+  const [downvotes, setDownvotes] = useState(post.downvotes);
+  
   const submitVote = (vote: string) => {
     if (!authToken) {
       alert("You must be logged in to vote");
@@ -31,14 +33,14 @@ function PostListItem({ post }: { post: Post }) {
     <div className="post-list-container">
       <VoteIndicator
         upvotes={upvotes}
-        downvotes={dowvotes}
+        downvotes={downvotes}
         submitVote={submitVote}
       />
       <div className="post-list-item">
         <h2 className="post-header">
-          <a className="title" href={post._id}>
+          <Link className="title" to={`/${post._id}`}>
             {post.title}
-          </a>
+          </Link>
         </h2>
         <p className="date-info">
           Submitted {timeAgo(post.createdAt)} by{" "}
@@ -47,7 +49,7 @@ function PostListItem({ post }: { post: Post }) {
           </a>
         </p>
         <p className="post-body">{post.body}</p>
-        <a href={post._id}>{post.comments.length} comments</a>
+        <Link to={`/${post._id}`}>{post.comments.length} comments</Link>
       </div>
     </div>
   );
