@@ -60,8 +60,11 @@ app.get("/", (_req, res) => {
 // Registration
 app.post("/register", async (req, res) => {
   const { email, password, displayName } = req.body;
+  const postSubmissions: string[] = [];
+  const comments: string[] = [];
 
   try {
+    // Step 1: Create user in Firebase Authentication
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
@@ -69,7 +72,21 @@ app.post("/register", async (req, res) => {
     );
     const user = userCredential.user;
 
+    // Update user profile (optional)
     await updateProfile(user, { displayName });
+
+    // Create user document in Firestore
+    const userDoc = {
+      uid: user.uid,
+      email: user.email,
+      displayName: displayName,
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      postSubmissions: postSubmissions, // Array of post submissions, initialized as empty
+      comments: comments, // Array of comments, initialized as empty
+    };
+
+    await db.collection("users").doc(user.uid).set(userDoc);
+
     console.log("User registered with display name:", displayName);
     res.status(201).send(user);
   } catch (error) {
@@ -124,6 +141,30 @@ app.get("/get-post", async (req, res) => {
   }
 });
 
+// Get Profile
+app.get("/users/:username", async (req, res) => {
+  const username = req.params.username;
+  console.log("Fetching user:", username);
+  try {
+    // Query Firestore for user document where displayName equals username
+    const querySnapshot = await db
+      .collection("users")
+      .where("displayName", "==", username)
+      .get();
+
+    if (querySnapshot.empty) {
+      res.status(404).send("User not found");
+      return;
+    }
+    const userDoc = querySnapshot.docs[0];
+    console.log(userDoc.data());
+    res.status(200).send(userDoc.data());
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).send("Error fetching user");
+  }
+});
+
 // Add comment to post
 app.post("/:postId/add-comment", async (req, res) => {
   const postId = req.params.postId;
@@ -151,7 +192,72 @@ app.post("/:postId/add-comment", async (req, res) => {
   } catch (error) {
     res.status(500).send(error);
   }
+
+  // Add to commenter's comments array
+  const userRef = db
+    .collection("users")
+    .where("displayName", "==", comment.author);
+  const userDoc = await userRef.get();
+  if (userDoc.empty) {
+    return res.status(404).send("User not found");
+  } else {
+    const userData = userDoc.docs[0].data();
+    const updatedComments = [...userData.comments, id];
+    await userDoc.docs[0].ref.update({ comments: updatedComments });
+  }
 });
+
+// Get user's comment history
+app.get("/users/:username/comments", async (req, res) => {
+  const username = req.params.username;
+  try {
+    const postsSnapshot = await db.collection("posts").get();
+    let comments: Comment[] = [];
+
+    postsSnapshot.forEach(postDoc => {
+      const post = postDoc.data();
+      // Check if the post has comments
+      if (post.comments && Array.isArray(post.comments)) {
+        // Filter comments where author matches username
+        const userComments = post.comments.filter(comment => comment.author === username);
+        comments = comments.concat(userComments);
+      }
+    });
+
+    // Respond with the filtered comments
+    res.status(200).send(comments);
+  } catch (error) {
+    console.error("Error fetching user comments:", error);
+    res.status(500).send("Error fetching user comments");
+  }
+});
+
+// TODO: Get comment's parent's title (WIP)
+app.get("/comments/:commentId/parent", async (req, res) => {
+  const commentId = req.params.commentId;
+  try {
+    const postsSnapshot = await db.collection("posts").get();
+    let parentTitle = "Post not found";
+
+    postsSnapshot.forEach(postDoc => {
+      const post = postDoc.data();
+      // Check if the post has comments
+      if (post.comments && Array.isArray(post.comments)) {
+        // Find the comment with the matching ID
+        const comment = post.comments.find(comment => comment._id === commentId);
+        if (comment) {
+          parentTitle = post.title;
+        }
+      }
+    });
+
+    res.status(200).send(parentTitle);
+  } catch (error) {
+    console.error("Error fetching parent title:", error);
+    res.status(500).send("Error fetching parent title");
+  }
+});
+
 
 // Get post by ID
 app.get("/:postId", (req, res) => {
@@ -171,18 +277,23 @@ app.get("/:postId", (req, res) => {
     });
 });
 
-// Create post
+/* Create a Post
+-Create a new doc in the 'posts' collection
+-add the post's ID to the submitter's postSubmissions array 
+*/
 app.post("/create-post", async (req, res) => {
   const { title, body, displayName } = req.body;
-  if (!displayName) {
-    return res.status(400).send("Display name is required");
-  }
-
-  const createdAt = new Date().toISOString();
-  const lastActivity = new Date();
-  const comments: Comment[] = [];
 
   try {
+    if (!displayName) {
+      return res.status(400).send("Display name is required");
+    }
+
+    const createdAt = new Date().toISOString();
+    const lastActivity = new Date();
+    const comments: string[] = [];
+
+    // Create the post in the 'posts' collection
     const newDocRef = await db.collection("posts").add({
       title,
       author: displayName,
@@ -195,15 +306,36 @@ app.post("/create-post", async (req, res) => {
     });
 
     const postId = newDocRef.id;
+
+    // Update the post document to include its own ID (_id)
     await db.collection("posts").doc(postId).update({ _id: postId });
+
+    // Update the user document in the 'users' collection
+    const userRef = await db
+      .collection("users")
+      .where("displayName", "==", displayName)
+      .get();
+
+    if (userRef.empty) {
+      return res.status(404).send("User not found");
+    }
+
+    const userData = userRef.docs[0].data();
+
+    // Update postSubmissions array with postId
+    const updatedPosts = [...userData.postSubmissions, postId];
+
+    // Update the user document with updated postSubmissions array
+    await userRef.docs[0].ref.update({ postSubmissions: updatedPosts });
+
     res.status(201).send("Post created successfully");
   } catch (error) {
     console.error("Error creating post:", error);
-    res.status(500).send(error);
+    res.status(500).send(error || "Error creating post");
   }
 });
 
-// Edit Post
+// Edit Post (WIP)
 app.put("/edit-post", async (req, res) => {
   const { postId, title, body } = req.body;
   try {
@@ -219,7 +351,7 @@ app.put("/edit-post", async (req, res) => {
   }
 });
 
-// Delete Post
+// Delete Post (WIP)
 app.delete("/delete-post", async (req, res) => {
   const postId = req.body.postId;
   try {
@@ -231,7 +363,7 @@ app.delete("/delete-post", async (req, res) => {
   }
 });
 
-// Vote on post
+// Vote on a post
 app.post("/posts/:postId/vote", async (req, res) => {
   const postId = req.params.postId;
   const vote = req.body.vote;
