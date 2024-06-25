@@ -13,42 +13,30 @@ import Comment from "./util/Comment";
 
 dotenv.config();
 
-// Horrible hack to get around Firebase's inability to parse private keys with newlines
+// Horrible hack to parse private keys with newlines
 let serviceAccount;
+let privateKey;
 if (process.env.NODE_ENV === "production") {
-  let privateKey = process.env.FIREBASE_PRIVATE_KEY;
+  privateKey = process.env.FIREBASE_PRIVATE_KEY;
   if (privateKey) {
     privateKey = privateKey.replace(/\\n/g, "\n");
   }
-
-  serviceAccount = {
-    type: process.env.FIREBASE_TYPE,
-    project_id: process.env.FIREBASE_PROJECT_ID,
-    private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
-    private_key: privateKey,
-    client_email: process.env.FIREBASE_CLIENT_EMAIL,
-    client_id: process.env.FIREBASE_CLIENT_ID,
-    auth_uri: process.env.FIREBASE_AUTH_URI,
-    token_uri: process.env.FIREBASE_TOKEN_URI,
-    auth_provider_x509_cert_url: process.env.FIREBASE_AUTH_PROVIDER_CERT_URL,
-    client_x509_cert_url: process.env.FIREBASE_CLIENT_CERT_URL,
-  };
-} else {
-  // For local development, load service account key from a file
-  serviceAccount = {
-    type: process.env.FIREBASE_TYPE,
-    project_id: process.env.FIREBASE_PROJECT_ID,
-    private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
-    private_key: process.env.FIREBASE_PRIVATE_KEY,
-    client_email: process.env.FIREBASE_CLIENT_EMAIL,
-    client_id: process.env.FIREBASE_CLIENT_ID,
-    auth_uri: process.env.FIREBASE_AUTH_URI,
-    token_uri: process.env.FIREBASE_TOKEN_URI,
-    auth_provider_x509_cert_url: process.env.FIREBASE_AUTH_PROVIDER_CERT_URL,
-    client_x509_cert_url: process.env.FIREBASE_CLIENT_CERT_URL,
-  };
 }
+serviceAccount = {
+  type: process.env.FIREBASE_TYPE,
+  project_id: process.env.FIREBASE_PROJECT_ID,
+  private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
+  private_key: privateKey || process.env.FIREBASE_PRIVATE_KEY,
+  client_email: process.env.FIREBASE_CLIENT_EMAIL,
+  client_id: process.env.FIREBASE_CLIENT_ID,
+  auth_uri: process.env.FIREBASE_AUTH_URI,
+  token_uri: process.env.FIREBASE_TOKEN_URI,
+  auth_provider_x509_cert_url: process.env.FIREBASE_AUTH_PROVIDER_CERT_URL,
+  client_x509_cert_url: process.env.FIREBASE_CLIENT_CERT_URL,
+};
+// End horrible hack
 
+// Init Firebase + Firestore
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
 });
@@ -211,6 +199,34 @@ app.post("/create-post", async (req, res) => {
     res.status(201).send("Post created successfully");
   } catch (error) {
     console.error("Error creating post:", error);
+    res.status(500).send(error);
+  }
+});
+
+// Edit Post
+app.put("/edit-post", async (req, res) => {
+  const { postId, title, body } = req.body;
+  try {
+    await db.collection("posts").doc(postId).update({
+      title,
+      body,
+      lastActivity: new Date(),
+    });
+    res.status(200).send("Post updated successfully");
+  } catch (error) {
+    console.error("Error updating post:", error);
+    res.status(500).send(error);
+  }
+});
+
+// Delete Post
+app.delete("/delete-post", async (req, res) => {
+  const postId = req.body.postId;
+  try {
+    await db.collection("posts").doc(postId).delete();
+    res.status(200).send("Post deleted successfully");
+  } catch (error) {
+    console.error("Error deleting post:", error);
     res.status(500).send(error);
   }
 });
