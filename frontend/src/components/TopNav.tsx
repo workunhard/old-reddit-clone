@@ -1,12 +1,10 @@
 import "../styles/TopNav.css";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 function TopNav() {
   const { authToken, displayName, setAuthToken, setDisplayName } = useAuth();
   const loggedIn = !!authToken;
-  const [currUser] = useState(displayName);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -18,16 +16,16 @@ function TopNav() {
   return (
     <nav className="top-nav">
       <div className="nav-left">
-        <a href="/" className="company-name">
+        <Link to="/" className="company-name">
           Old Reddit Clone
-        </a>
+        </Link>
       </div>
       <div className="nav-right">
         {loggedIn ? (
           <>
-            <a className="profile-name" href="#">
-              {currUser}
-            </a>
+            <Link className="profile-name" to={`/users/${displayName}`}>
+              {displayName}
+            </Link>
             <button className="nav-button" onClick={handleLogout}>
               Logout
             </button>

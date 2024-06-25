@@ -7,6 +7,7 @@ import Post from "../types/Post";
 import Comment from "../types/Comment";
 import timeAgo from "../util/TimeAgoUtil";
 import VoteIndicator from "./VoteIndicator";
+import arrowLeft from "../assets/arrow-left.svg";
 
 function PostPage() {
   const { postId } = useParams<{ postId: string }>();
@@ -56,9 +57,9 @@ function PostPage() {
     return comments.map((comment: Comment) => (
       <div key={comment._id} className="comment-container">
         <div className="comment-header">
-          <a href="#" className="comment-author">
+          <Link to={`users/${comment.author}`} className="comment-author">
             {comment.author}
-          </a>
+          </Link>
           <p>{timeAgo(comment.createdAt)}</p>
         </div>
         <p>{comment.body}</p>
@@ -94,7 +95,10 @@ function PostPage() {
     <>
       {post ? (
         <>
-          <Link to="/">Back</Link>
+          <Link to="/" className="back-btn">
+            <img src={arrowLeft} alt="back" />
+            <span>Back</span>
+          </Link>
           <div className="post-area-container">
             <div className="content-container">
               <VoteIndicator

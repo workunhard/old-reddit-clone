@@ -4,6 +4,7 @@ import TopNav from "./components/TopNav";
 import Body from "./components/Body";
 import PostPage from "./components/PostPage";
 import Login from "./components/Login";
+import Profile from "./components/Profile";
 import "./styles/App.css";
 import { AuthProvider } from "./context/AuthContext";
 
@@ -19,6 +20,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Body />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/users/:username" element={<Profile  />} />
               <Route path="/:postId" element={<PostPage />} />
             </Routes>
           </div>

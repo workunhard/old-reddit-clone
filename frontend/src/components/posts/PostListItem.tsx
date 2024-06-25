@@ -44,10 +44,10 @@ function PostListItem({ post }: { post: Post }) {
         </h2>
         <p className="date-info">
           Submitted {timeAgo(post.createdAt)} by{" "}
-          <a className="author" href="#">
+          <Link className="author" to={`users/${post.author}`}>
             {post.author}
-          </a>
-        </p>
+          </Link>
+          </p>
         <p className="post-body">{post.body}</p>
         <Link to={`/${post._id}`}>{post.comments.length} comments</Link>
       </div>

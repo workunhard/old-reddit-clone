@@ -21,7 +21,7 @@ function Body() {
     setIsModalOpen(false);
   };
 
-  const fetchPosts = () => {
+  const fetchPosts = async () => {
     axios
       .get(baseUrl + "/get-posts", {
         headers: {
