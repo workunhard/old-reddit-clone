@@ -17,7 +17,8 @@ I felt like recreating the Old Reddit aesthetic was complex enough to be gratify
 * Create, read, update, and delete(TODO) posts
 * Comment on posts
 * Upvote and downvote posts/comments (TODO: limit votes to one per user)
-* TODO: View user profiles, post/comment history
+* View user profiles + comment history
+* TODO: View user post history
 * TODO: Edit and delete comments
 
 ## Technologies
@@ -26,13 +27,8 @@ I felt like recreating the Old Reddit aesthetic was complex enough to be gratify
 * React
 * Express
 * Firebase (auth + Firestore)
-* Good ol' CSS
-
-## Learnings
-* AWS Elastic Beanstalk docs are fine for getting up and running quickly. Not as helpful for troubleshooting. Trial and error led me down an NGINX rabbit hole that was informative but self-inflicted.
-* Designing component interactions by the seat of your pants / "drawing from reference" is bad -- diagramming data models and pre-emptively identifying common functionalities makes for lighter refactoring.
-* Firebase is criminally easy to set up, but Firestore reads can quickly get out of hand if you're not careful with your queries and/or you have multiple tabs of the Firestore Console open.
-* The upvote/downvote system is roughly implemented; votes can be cast and are appropriately stored, however I need to solve the issue of users being able to cast multiple votes on the same post/comment. This will likely involve storing a list of users who have voted on a post/comment and checking that list before allowing a vote to be cast. The Post/Comment interfaces must grow.
+* AWS Elastic Beanstalk, S3, EC2
+* CSS
 
 ## Setup
 1. Clone the repository
