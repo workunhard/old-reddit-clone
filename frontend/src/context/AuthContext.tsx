@@ -1,10 +1,5 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from "react";
+// AuthContext.tsx
+import React, { createContext, useContext, useState, ReactNode } from "react";
 
 interface AuthContextType {
   authToken: string | null;
@@ -20,28 +15,8 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [authToken, setAuthToken] = useState<string | null>(
-    localStorage.getItem("authToken")
-  );
-  const [displayName, setDisplayName] = useState<string | null>(
-    localStorage.getItem("displayName")
-  );
-
-  useEffect(() => {
-    if (authToken) {
-      localStorage.setItem("authToken", authToken);
-    } else {
-      localStorage.removeItem("authToken");
-    }
-  }, [authToken]);
-
-  useEffect(() => {
-    if (displayName) {
-      localStorage.setItem("displayName", displayName);
-    } else {
-      localStorage.removeItem("displayName");
-    }
-  }, [displayName]);
+  const [authToken, setAuthToken] = useState<string | null>(null);
+  const [displayName, setDisplayName] = useState<string | null>(null);
 
   return (
     <AuthContext.Provider

@@ -1,5 +1,7 @@
+// CreatePostModal.tsx
 import "../../styles/CreatePostModal.css";
 import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 
 interface ModalProps {
   closeModal: () => void;
@@ -9,11 +11,14 @@ interface ModalProps {
 const CreatePostModal: React.FC<ModalProps> = ({ closeModal, submitPost }) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [displayName] = useState(localStorage.getItem("displayName") || null);
+  const { authToken } = useAuth(); // Access token from useAuth
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (displayName === null) return console.error("User not logged in");
+    if (!authToken) {
+      console.error("User not logged in");
+      return;
+    }
     await submitPost(title, body);
   };
 

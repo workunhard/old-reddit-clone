@@ -21,7 +21,7 @@ const Login = () => {
       });
       const { token, displayName } = response.data;
       setAuthToken(token);
-      updateDisplayName(displayName); // from useAuth
+      updateDisplayName(displayName);
       navigate("/");
     } catch (error) {
       console.error(error);

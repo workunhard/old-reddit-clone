@@ -1,3 +1,4 @@
+// PostPage.tsx
 import "../styles/PostPage.css";
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -12,7 +13,7 @@ import arrowLeft from "../assets/arrow-left.svg";
 function PostPage() {
   const { postId } = useParams<{ postId: string }>();
   const [post, setPost] = useState<Post | null>(null);
-  const { authToken, displayName } = useAuth();
+  const { authToken, displayName } = useAuth(); // Access token from useAuth
 
   useEffect(() => {
     axios.get(`http://localhost:8080/${postId}`).then((response) => {
@@ -42,14 +43,26 @@ function PostPage() {
     };
 
     axios
-      .post(`http://localhost:8080/${postId}/add-comment`, {
-        comment: newComment,
-      })
+      .post(
+        `http://localhost:8080/${postId}/add-comment`,
+        {
+          comment: newComment,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      )
       .then((response) => {
         const updatedComment = response.data;
         if (post) {
           setPost({ ...post, comments: [...post.comments, updatedComment] });
         }
+      })
+      .catch((error) => {
+        console.error("Error adding comment:", error);
+        // Handle error appropriately, e.g., show a message to the user
       });
   };
 
@@ -82,12 +95,24 @@ function PostPage() {
     }
 
     axios
-      .post(`http://localhost:8080/posts/${postId}/vote`, { vote })
+      .post<Post>(
+        `http://localhost:8080/posts/${postId}/vote`,
+        { vote },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      )
       .then((response) => {
         setPost(response.data);
       })
       .catch((error) => {
         console.error("Error voting on post:", error);
+        if (error.response && error.response.status === 401) {
+          alert("Your session has expired. Please log in again.");
+          // Implement a function to log out the user and redirect to login page
+        }
       });
   };
 
@@ -111,9 +136,9 @@ function PostPage() {
                   <h2>{post.title}</h2>
                   <p className="submission-info">
                     Submitted {timeAgo(post.createdAt)} by{" "}
-                    <a href="#" className="author">
+                    <Link to={`/users/${post.author}`} className="author">
                       {post.author}
-                    </a>
+                    </Link>
                   </p>
                 </div>
                 <p>{post.body}</p>
@@ -128,7 +153,7 @@ function PostPage() {
           </div>
           <div className="comments-section">
             <h3>Comments ({post.comments.length})</h3>
-            {renderComments(post.comments as [])}
+            {renderComments(post.comments as unknown as Comment[])}
           </div>
         </>
       ) : (

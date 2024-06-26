@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import arrowLeft from "../assets/arrow-left.svg";
 import "../styles/Profile.css";
 import ActivityLog from "./ActivityLog";
 import Comment from "../types/Comment";
@@ -53,6 +54,10 @@ function Profile() {
   return (
     <>
       <div className="profile-container">
+        <Link to="/" className="back-btn">
+          <img src={arrowLeft} alt="back" />
+          <span>Back</span>
+        </Link>
         <div className="profile-details">
           <h1>{username}</h1>
           {user ? (

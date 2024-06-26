@@ -19,7 +19,13 @@ function PostListItem({ post }: { post: Post }) {
     }
 
     axios
-      .post(`http://localhost:8080/posts/${post._id}/vote`, { vote })
+      .post(`http://localhost:8080/posts/${post._id}/vote`, { vote },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`, // Attach authorization header
+          },
+        }
+      )
       .then((response) => {
         setUpvotes(response.data.upvotes);
         setDownvotes(response.data.downvotes);
