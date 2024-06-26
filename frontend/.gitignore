@@ -12,6 +12,7 @@ package-lock.json
 dist
 dist-ssr
 *.local
+env-aws-eb.txt
 
 # Editor directories and files
 .vscode/*

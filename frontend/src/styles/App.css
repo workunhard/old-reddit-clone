@@ -12,6 +12,13 @@
   flex: 1;
 }
 
+.header-content {
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+}
+
 .main-content {
   flex: 1;
   padding: 20px;

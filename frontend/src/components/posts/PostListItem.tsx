@@ -55,7 +55,7 @@ function PostListItem({ post }: { post: Post }) {
           </Link>
           </p>
         <p className="post-body">{post.body}</p>
-        <Link to={`/${post._id}`}>{post.comments.length} comments</Link>
+        <Link className="numComments" to={`/${post._id}`}>{post.comments.length} comments</Link>
       </div>
     </div>
   );

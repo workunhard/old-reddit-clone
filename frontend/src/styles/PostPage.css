@@ -7,6 +7,14 @@
   border-bottom: 1px solid rgb(65, 65, 65);
 }
 
+.post-main-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding: 20px;
+  border-radius: 2px;
+}
+
 .back-btn {
   display: flex;
   align-items: center;
@@ -25,46 +33,10 @@
   vertical-align: middle;
 }
 
-.content-container {
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  padding: 20px;
-  border-radius: 2px;
-}
-
-/* VoteIndicator.tsx styles */
-.voting-controls {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.upvote,
-.downvote {
-  width: 36px;
-  height: 36px;
-  border-radius: 2rem;
-}
-
-.voteBalance {
-  font-size: 1.2rem;
-  font-style: bold;
-}
-
-.positive {
-  color: #ff6f00;
-}
-
-.negative {
-  color: #67dcf9;
-}
-/* end voting css */
-
 .post-content-container {
   display: flex;
   flex-direction: column;
+  text-align:left;
   flex: 1;
   box-sizing: border-box;
   margin: 0;
@@ -73,9 +45,20 @@
   padding-left: 1rem;
 }
 
+.title-author {
+  justify-content: space-between;
+  align-items: center;
+}
+
+p {
+  text-align: left;
+  align-items: flex-start;
+}
+
 p.submission-info {
   margin: 0;
   font-size: 0.8rem;
+  width: 400px;
 }
 
 .post-content-container h2 {
@@ -86,8 +69,8 @@ p.submission-info {
   display: flex;
   flex-direction: column;
   min-width: 320px;
-  max-width: 500px;
-  min-height: 100px;
+  max-width: 900px;
+  min-height: 200px;
 }
 
 .comment-input textarea {
@@ -133,3 +116,39 @@ p.submission-info {
   font-style: italic;
   font-size: 0.8rem;
 }
+
+.comment-body {
+  margin: 0;
+  padding: 10px 0;
+  min-width: 320px;
+  max-width: 1280px;
+}
+
+/* VoteIndicator.tsx styles */
+.voting-controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.upvote,
+.downvote {
+  width: 36px;
+  height: 36px;
+  border-radius: 2rem;
+}
+
+.voteBalance {
+  font-size: 1.2rem;
+  font-style: bold;
+}
+
+.positive {
+  color: #ff6f00;
+}
+
+.negative {
+  color: #67dcf9;
+}
+/* end voting css */

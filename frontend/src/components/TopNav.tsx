@@ -10,7 +10,6 @@ function TopNav() {
   const handleLogout = () => {
     setAuthToken(null);
     setDisplayName(null);
-    navigate("/");
   };
 
   return (

@@ -2,9 +2,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
-  background-color: #333;
+  padding: 3px 20px;
+  background-color: rgba(36, 36, 36, 0.7);
   color: #ff6f00;
+
 }
 
 .nav-left .company-name {
@@ -26,14 +27,16 @@ a.profile-name {
 }
 
 .nav-button {
-  padding: 10px 15px;
+  padding: 7px 15px;
   text-decoration: none;
-  color: #fff;
-  background-color: #ff6f00;
-  border-radius: 5px;
-  transition: background-color 0.3s;
+  color: #ff6f00;
+  background-color: #242424;
+  border-radius: 5rem;
+  border: 1px #ff6f00 solid;
+  transition: all 0.3s
+
 }
 
 .nav-button:hover {
-  background-color: #b34e01;
+  color: white;
 }

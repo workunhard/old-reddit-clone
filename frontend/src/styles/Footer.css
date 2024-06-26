@@ -20,6 +20,8 @@
 
 .footer-left {
   flex: 1;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .footer-center {

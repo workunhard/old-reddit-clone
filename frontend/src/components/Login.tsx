@@ -1,19 +1,24 @@
+import styles from "../styles/Login.module.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import LoadingSpinner from "./LoadingSpinner";
 
 const Login = () => {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [showLogin, setShowLogin] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-  const { setAuthToken, setDisplayName: updateDisplayName } = useAuth(); // Rename to prevent TS Error
+  const { setAuthToken, setDisplayName: updateDisplayName } = useAuth();
   const baseUrl = "http://localhost:8080";
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post(baseUrl + "/login", {
         email,
@@ -25,78 +30,103 @@ const Login = () => {
       navigate("/");
     } catch (error) {
       console.error(error);
+      setError("Invalid credentials (WIP)");
     }
   };
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post(baseUrl + "/register", {
+      await axios.post(baseUrl + "/register", {
         email,
         password,
         displayName,
       });
-      console.log(response.data);
+      setShowLogin(true);
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
-    <div>
-      {showLogin ? (
-        <>
-          <div>Login</div>
-          <form onSubmit={handleLogin}>
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <button type="submit">Login</button>
-          </form>
-          <p>
-            Not a user?{" "}
-            <button onClick={() => setShowLogin(false)}>Register here</button>
-          </p>
-        </>
-      ) : (
-        <>
-          <div>Register</div>
-          <form onSubmit={handleRegister}>
-            <input
-              type="text"
-              placeholder="Display Name"
-              value={displayName}
-              onChange={(e) => setDisplayName(e.target.value)}
-            />
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <button type="submit">Register</button>
-          </form>
-          <p>
-            Already a user?{" "}
-            <button onClick={() => setShowLogin(true)}>Login here</button>
-          </p>
-        </>
-      )}
+    <div className={styles.contentContainer}>
+      <div className={styles.loginContainer}>
+        {loading ? (
+          <LoadingSpinner />
+        ) : (
+          <>
+            {showLogin ? (
+              <>
+                <h1>Sign in</h1>
+                {error && <p className={styles.error}>{error}</p>}
+                <form className={styles.formFields} onSubmit={handleLogin}>
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    autoComplete="email"
+                  />
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    autoComplete="current-password"
+                  />
+                  <button className={styles.loginBtn} type="submit">
+                    Login
+                  </button>
+                </form>
+                <p className="message">Not a user?</p>
+                <button
+                  className={styles.toggle}
+                  onClick={() => setShowLogin(false)}
+                >
+                  Create an account
+                </button>
+              </>
+            ) : (
+              <>
+                <h1>Sign Up</h1>
+                <form className={styles.formFields} onSubmit={handleRegister}>
+                  <input
+                    type="text"
+                    placeholder="Display Name"
+                    value={displayName}
+                    onChange={(e) => setDisplayName(e.target.value)}
+                    autoComplete="name"
+                  />
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    autoComplete="email"
+                  />
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    autoComplete="new-password"
+                  />
+                  <button className={styles.loginBtn} type="submit">
+                    Create Account
+                  </button>
+                </form>
+                <p>Already a user?</p>
+                <button
+                  className={styles.toggle}
+                  onClick={() => setShowLogin(true)}
+                >
+                  Log in
+                </button>
+              </>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 };

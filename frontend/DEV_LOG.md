@@ -1,5 +1,33 @@
 # Dev Log - Frontend
 
+## June 26, 2024 - CSS Hell
+
+Wins:
+- Beautified Login and PostListItem components
+- Added a loading spinner
+- Various CSS tweaks
+- Started using CSS modules
+
+Notes:
+- The many stylesheets have caught up with me and highlighted the lack of organization in previous commits. I've been writing CSS under the mistaken assumption that any stylesheets imported directly into a component take precedence over other unimported stylesheets. In hindsight it seems obvious, but only apparent as I've begun to use conflicting classNames. I need to better review App.css to determine actually common rules and weed out the hacky CSS added earlier in the project.
+- Further to above, heavy duplication between similar components needs to be addressed (PostListItem, PostPage, ActivityLog) 
+- Semi-transparent panels,radial gradients, and blur effects are pleasant to look at and easy to implement with a few key rules:
+```css
+    /* Radial lighting inspired by NVIDIA GeForce Experience client  */
+    background: radial-gradient(
+        circle at top right,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 255, 255, 0) 70%
+        ),
+        #333333;
+
+    /* Semi-transparent panel and blur effect */
+    background-color: rgba(36, 36, 36, 0.7);
+    backdrop-filter: blur(5px);
+```
+- [Dribbble](https://www.dribbble.com) is stuffed with good inspiration
+
+
 ## June 24, 2024 - Undeployed but getting there
 
 The frontpage:

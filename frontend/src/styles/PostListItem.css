@@ -7,10 +7,11 @@
 }
 
 .post-list-item {
-  border: 1px solid #ccc;
   background-color: #3f3f3f;
   padding: 0.5rem 0rem 0.5rem 1rem;
   flex-grow: 1;
+  margin-bottom: 2px;
+  border-radius: 0.5rem;
 }
 
 .post-header {
@@ -21,7 +22,10 @@
 }
 
 .post-body {
-  margin: 3px 0px 3px 0px;
+  margin: 3px 0px;
+  max-height: 1.5rem;
+  overflow: hidden;
+  color: #fff;
 }
 
 a.title {
@@ -60,4 +64,8 @@ a.author {
   background-color: #ff6f00;
   margin: 10px 0 20px 0;
   width: 100%;
+}
+
+.numComments:hover {
+  color: #cacaca;
 }

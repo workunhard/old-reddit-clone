@@ -1,4 +1,3 @@
-// PostPage.tsx
 import "../styles/PostPage.css";
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -9,11 +8,12 @@ import Comment from "../types/Comment";
 import timeAgo from "../util/TimeAgoUtil";
 import VoteIndicator from "./VoteIndicator";
 import arrowLeft from "../assets/arrow-left.svg";
+import LoadingSpinner from "./LoadingSpinner";  // Add this import
 
 function PostPage() {
   const { postId } = useParams<{ postId: string }>();
   const [post, setPost] = useState<Post | null>(null);
-  const { authToken, displayName } = useAuth(); // Access token from useAuth
+  const { authToken, displayName } = useAuth();
 
   useEffect(() => {
     axios.get(`http://localhost:8080/${postId}`).then((response) => {
@@ -70,12 +70,12 @@ function PostPage() {
     return comments.map((comment: Comment) => (
       <div key={comment._id} className="comment-container">
         <div className="comment-header">
-          <Link to={`users/${comment.author}`} className="comment-author">
+          <Link to={`../users/${comment.author}`} className="comment-author">
             {comment.author}
           </Link>
           <p>{timeAgo(comment.createdAt)}</p>
         </div>
-        <p>{comment.body}</p>
+        <p className="comment-body">{comment.body}</p>
         <a href="#" className="reply-link">
           reply(WIP)
         </a>
@@ -125,20 +125,22 @@ function PostPage() {
             <span>Back</span>
           </Link>
           <div className="post-area-container">
-            <div className="content-container">
+            <div className="post-main-container">
               <VoteIndicator
                 upvotes={post.upvotes}
                 downvotes={post.downvotes}
                 submitVote={submitVote}
               />
               <div className="post-content-container">
-                <div className="post-header">
+                <div className="title-header">
                   <h2>{post.title}</h2>
                   <p className="submission-info">
                     Submitted {timeAgo(post.createdAt)} by{" "}
-                    <Link to={`/users/${post.author}`} className="author">
-                      {post.author}
-                    </Link>
+                    {
+                      <Link to={`/users/${post.author}`} className="author">
+                        {post.author}
+                      </Link>
+                    }
                   </p>
                 </div>
                 <p>{post.body}</p>
@@ -157,7 +159,7 @@ function PostPage() {
           </div>
         </>
       ) : (
-        <p>Loading...</p>
+        <LoadingSpinner />  // This replaces the previous <p>Loading...</p>
       )}
     </>
   );
