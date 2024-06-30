@@ -67,5 +67,5 @@ jobs:
         with:
           app-name: 'reddit-clone-backend'
           slot-name: 'Production'
-          package: .
+          package: './backend'
           
