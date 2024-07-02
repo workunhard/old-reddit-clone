@@ -1,5 +1,20 @@
 # Dev Log - Backend
 
+## July 2, 2024 - Rethinking Hosting
+
+With the frontend successfully deployed to AWS Cloudfront via S3 (HTTPS), the final piece of the puzzle is getting it to cooperate with the backend, which it won't due to [Mixed Content](https://developer.mozilla.org/en-US/docs/Web/Security/Mixed_content). Cue troubles with AWS Elastic Beanstalk:
+
+My server isn't explicitly configured for HTTPS. Naively, I hoped the solution would be as simple as the frontend deploy (i.e., uploading the files to S3 + creating a distro in Cloudfront = boom; HTTPS).
+
+But no. The backend is a different beast. I've been hit with a surprise AWS bill before was therefore hoping that it would be possible to host the backend on the free tier (Single Instance). However, configuring HTTPS on an EB environment requires a load balancer, which is not free and frankly super overkill for a demo project. I'm stubbornly insisting on EB because of the time already sunk into searching for a solution, and ultimately I want to learn how to do it properly for future projects that might enjoy more than a couple users.
+
+To get a SSL via AWS Certificate Manager (ACM), I can't use the default domain assigned by EB; I need to buy/register my own. With the cert, I can then configure the load balancer.
+
+When I manage to get this to work, I'll be looking at a more cost-effective alternative in serverless (Lambda + API Gateway); seems more appropriate for a project of this scale.
+
+Anyways, here's the current backend over glorious HTTP: 
+* [http://old-reddit-backend.us-west-2.elasticbeanstalk.co](http://old-reddit-backend.us-west-2.elasticbeanstalk.com)
+
 ## June 25, 2024 - The AI Update
 
 AI code completion is helpful for sketching basic routes and writing trivial code, but it's not a panacea. More often than not, when faced with a tough read, it butchers its own troubleshooting steps and fails miserably at retaining the context of previous questions/answers. After feeling like ChatGPT was giving me the first 5 google results on repeat, I gave Claude a try and was surprised. One thorough query and it made multiple, genuine enhancements while introducing only easily-squashed bugs. It helped me figure out what I was trying to achieve with the AuthContext, and it created a sorely needed AuthenticatedRequest interface; tokens now work as they should.
@@ -10,7 +25,7 @@ Remaining in experimental branch until all changes are verified as stable.
 
 ## June 24, 2024 - Redeploy + Refactor + New Routes
 
-Second Deploy (ver023): [http://reddit-clone-backend-023.us-west-2.elasticbeanstalk.com/](http://reddit-clone-backend-023.us-west-2.elasticbeanstalk.com/)
+[DEFUNCT] ~~Second Deploy (ver023): [http://reddit-clone-backend-023.us-west-2.elasticbeanstalk.com/]~~
 
 Completions:
 
