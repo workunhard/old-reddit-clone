@@ -15,7 +15,6 @@
 .header-content {
   position: sticky;
   top: 0;
-  backdrop-filter: blur(4px);
   z-index: 1000;
 }
 
@@ -36,4 +35,13 @@
 
 .login-message {
   margin-top: 0;
+}
+
+.bold {
+  font-weight: 750;
+}
+
+.orange {
+  color: #ff6f00;
+  font-weight: 700;
 }

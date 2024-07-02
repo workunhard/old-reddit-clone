@@ -11,7 +11,7 @@ function Body() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
   const { authToken, displayName } = useAuth();
-  const baseUrl = "http://localhost:8080";
+  const baseUrl = "http://old-reddit-backend.us-west-2.elasticbeanstalk.com";
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -96,7 +96,7 @@ function Body() {
             </div>
           ) : (
             <p className="login-message">
-              <a href="/login">Sign in</a> to post, comment, and vote!
+              <a className="orange" href="/login">Sign in</a> to post, comment, and vote!
             </p>
           )}
           <div>

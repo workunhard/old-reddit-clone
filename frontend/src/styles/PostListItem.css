@@ -8,10 +8,17 @@
 
 .post-list-item {
   background-color: #3f3f3f;
+  font-weight: 350;
   padding: 0.5rem 0rem 0.5rem 1rem;
   flex-grow: 1;
   margin-bottom: 2px;
   border-radius: 0.5rem;
+  transition: all 0.3s;
+}
+
+.post-list-item:hover {
+  background-color: #4f4f4f;
+  transition: all 0.3s;
 }
 
 .post-header {

@@ -19,7 +19,7 @@ function PostListItem({ post }: { post: Post }) {
     }
 
     axios
-      .post(`http://localhost:8080/posts/${post._id}/vote`, { vote },
+      .post(`http://old-reddit-backend.us-west-2.elasticbeanstalk.com/posts/${post._id}/vote`, { vote },
         {
           headers: {
             Authorization: `Bearer ${authToken}`, // Attach authorization header
@@ -42,7 +42,7 @@ function PostListItem({ post }: { post: Post }) {
         downvotes={downvotes}
         submitVote={submitVote}
       />
-      <div className="post-list-item">
+      <Link to={`/${post._id}`} className="post-list-item">
         <h2 className="post-header">
           <Link className="title" to={`/${post._id}`}>
             {post.title}
@@ -56,7 +56,7 @@ function PostListItem({ post }: { post: Post }) {
           </p>
         <p className="post-body">{post.body}</p>
         <Link className="numComments" to={`/${post._id}`}>{post.comments.length} comments</Link>
-      </div>
+      </Link>
     </div>
   );
 }

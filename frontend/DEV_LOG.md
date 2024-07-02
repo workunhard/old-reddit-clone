@@ -1,5 +1,16 @@
 # Dev Log - Frontend
 
+## July 2, 2024
+
+Frontend deploy: https://d5ngvcz90y0bk.cloudfront.net
+
+Wins:
+* Hosted on AWS Cloudfront via S3 (HTTPS)
+* CSS tweaks
+
+Notes:
+* Hosting a frontend is stupidly easy with S3 and Cloudfront -- hardly any troubleshooting or reconfig needed to get it to work. Unfortunately, the value of this app lies in its ability to communicate with the backend, which is currently hosted on HTTP. See the backend dev log for more info
+
 ## June 26, 2024 - CSS Hell
 
 Wins:

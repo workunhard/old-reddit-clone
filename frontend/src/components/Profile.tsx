@@ -17,19 +17,18 @@ function Profile() {
   const { username } = useParams<{ username: string }>();
   const [user, setUser] = useState<User | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
+  const baseUrl = "http://old-reddit-backend.us-west-2.elasticbeanstalk.com";
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        // Fetch user details
         const userResponse = await axios.get<User>(
-          `http://localhost:8080/users/${username}`
+          `${baseUrl}/users/${username}`
         );
         setUser(userResponse.data);
 
-        // Fetch user comments
         const commentsResponse = await axios.get<Comment[]>(
-          `http://localhost:8080/users/${username}/comments`
+          `${baseUrl}/users/${username}/comments`
         );
         setComments(commentsResponse.data);
       } catch (error) {
@@ -42,7 +41,6 @@ function Profile() {
     }
   }, [username]);
 
-  // Function to format Firestore Timestamp to a readable date string
   const formatDate = (timestamp: {
     _seconds: number;
     _nanoseconds: number;

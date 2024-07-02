@@ -14,9 +14,10 @@ function PostPage() {
   const { postId } = useParams<{ postId: string }>();
   const [post, setPost] = useState<Post | null>(null);
   const { authToken, displayName } = useAuth();
+  const baseUrl = "http://old-reddit-backend.us-west-2.elasticbeanstalk.com";
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/${postId}`).then((response) => {
+    axios.get(`${baseUrl}/${postId}`).then((response) => {
       setPost(response.data);
     });
   }, [postId]);
@@ -44,7 +45,7 @@ function PostPage() {
 
     axios
       .post(
-        `http://localhost:8080/${postId}/add-comment`,
+        `${baseUrl}/${postId}/add-comment`,
         {
           comment: newComment,
         },
