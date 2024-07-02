@@ -1,5 +1,12 @@
 # Dev Log - Backend
 
+## July 2, 2024 Pt 2 - Rethought, Rehosted
+
+Not 30min after the last update and I managed to get the backend AND frontend working with HTTPS -- no 'not secure' warnings in sight.
+
+Backend successfully hosted on Elastic Beanstalk. I purchased 'codes-test-domain.com' through Route 53 and configured everything in ~30min -- very satisfying when something 'just works'.
+The frontend (https://codes-test-domain.com) communicates seamlessly with the backend (https://orc-api.codes-test-domain.com), however now that I'm able to easily view the hosted project on my phone, it has exposed a ton of UI/CSS issues. Shifting focus to the frontend before adding additional routes and tightening up the backend logic.
+
 ## July 2, 2024 - Rethinking Hosting
 
 With the frontend successfully deployed to AWS Cloudfront via S3 (HTTPS), the final piece of the puzzle is getting it to cooperate with the backend, which it won't due to [Mixed Content](https://developer.mozilla.org/en-US/docs/Web/Security/Mixed_content). Cue troubles with AWS Elastic Beanstalk:
@@ -13,7 +20,7 @@ To get a SSL via AWS Certificate Manager (ACM), I can't use the default domain a
 When I manage to get this to work, I'll be looking at a more cost-effective alternative in serverless (Lambda + API Gateway); seems more appropriate for a project of this scale.
 
 Anyways, here's the current backend over glorious HTTP: 
-* [http://old-reddit-backend.us-west-2.elasticbeanstalk.co](http://old-reddit-backend.us-west-2.elasticbeanstalk.com)
+* http://old-reddit-backend.us-west-2.elasticbeanstalk.com
 
 ## June 25, 2024 - The AI Update
 
