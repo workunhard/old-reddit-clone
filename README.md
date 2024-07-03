@@ -1,4 +1,4 @@
-# old-reddit-clone | https://codes-test-domain.com
+# old-reddit-clone | [Live Link](https://codes-test-domain.com)
 A simple Old Reddit clone built with React, Express, GCP and AWS
 
 ## Background
