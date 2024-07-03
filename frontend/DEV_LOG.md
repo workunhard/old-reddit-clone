@@ -1,15 +1,27 @@
 # Dev Log - Frontend
 
+## July 2, 2024 Pt 2
+
+![July 2 UI](./readme_resources/jul2frontpage.png)
+
+Wins:
+* Configured DNS to point to https://codes-test-domain.com
+
+Notes:
+* Now that the front and backend are deployed and I'm able to more easily look on my work via mobile, it's evident that my UI/CSS is a gongshow that needs addressing. I'll be focusing on the frontend before extending and tightening up the backend logic.
+
 ## July 2, 2024
 
-Frontend deploy: https://d5ngvcz90y0bk.cloudfront.net
+Frontend deploy: ~~https://d5ngvcz90y0bk.cloudfront.net~~
 
 Wins:
 * Hosted on AWS Cloudfront via S3 (HTTPS)
 * CSS tweaks
 
 Notes:
-* Hosting a frontend is stupidly easy with S3 and Cloudfront -- hardly any troubleshooting or reconfig needed to get it to work. Unfortunately, the value of this app lies in its ability to communicate with the backend, which is currently hosted on HTTP. See the backend dev log for more info
+* Hosting a frontend is stupidly easy with S3 and Cloudfront -- hardly any troubleshooting or reconfig needed to get it to work. 
+* Redeploying/updating the frontend is as simple as drag-and-dropping build files into the S3 bucket
+* Unfortunately, the value of this app lies in its ability to communicate with the backend, which is currently hosted on HTTP. See the backend dev log for more info
 
 ## June 26, 2024 - CSS Hell
 

@@ -40,3 +40,22 @@ a.profile-name {
 .nav-button:hover {
   color: white;
 }
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .top-nav {
+    padding: 3px 10px;
+  
+  }
+  .nav-right {
+    gap: 10px;
+  }
+
+  a.profile-name {
+    font-size: 1rem;
+  }
+
+  .nav-button {
+    display: none;
+  }
+}

@@ -8,13 +8,13 @@ import Comment from "../types/Comment";
 import timeAgo from "../util/TimeAgoUtil";
 import VoteIndicator from "./VoteIndicator";
 import arrowLeft from "../assets/arrow-left.svg";
-import LoadingSpinner from "./LoadingSpinner";  // Add this import
+import LoadingSpinner from "./LoadingSpinner"; // Add this import
 
 function PostPage() {
   const { postId } = useParams<{ postId: string }>();
   const [post, setPost] = useState<Post | null>(null);
   const { authToken, displayName } = useAuth();
-  const baseUrl = "http://old-reddit-backend.us-west-2.elasticbeanstalk.com";
+  const baseUrl = "https://orc-api.codes-test-domain.com";
 
   useEffect(() => {
     axios.get(`${baseUrl}/${postId}`).then((response) => {
@@ -97,7 +97,7 @@ function PostPage() {
 
     axios
       .post<Post>(
-        `http://localhost:8080/posts/${postId}/vote`,
+        `${baseUrl}/posts/${postId}/vote`,
         { vote },
         {
           headers: {
@@ -144,9 +144,11 @@ function PostPage() {
                     }
                   </p>
                 </div>
-                <p>{post.body}</p>
+                
               </div>
+              
             </div>
+            <p className="post-body">{post.body}</p>
             <div className="comment-input">
               <textarea placeholder="Add a comment" />
               <button className="submit-btn" onClick={addComment}>
@@ -160,7 +162,7 @@ function PostPage() {
           </div>
         </>
       ) : (
-        <LoadingSpinner />  // This replaces the previous <p>Loading...</p>
+        <LoadingSpinner /> // This replaces the previous <p>Loading...</p>
       )}
     </>
   );

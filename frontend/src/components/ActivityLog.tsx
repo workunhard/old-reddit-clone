@@ -1,5 +1,5 @@
-import React from 'react';
-import Comment from '../types/Comment';
+import React from "react";
+import Comment from "../types/Comment";
 import timeAgo from "../util/TimeAgoUtil";
 
 interface Props {

@@ -9,7 +9,7 @@
 .post-list-item {
   background-color: #3f3f3f;
   font-weight: 350;
-  padding: 0.5rem 0rem 0.5rem 1rem;
+  padding: 0.2rem 0rem 0.2rem 1rem;
   flex-grow: 1;
   margin-bottom: 2px;
   border-radius: 0.5rem;
@@ -39,6 +39,7 @@ a.title {
   color: #ff6f00;
   text-decoration: none;
   cursor: pointer;
+  margin-right: auto;
 }
 
 a.author {
@@ -71,6 +72,11 @@ a.author {
   background-color: #ff6f00;
   margin: 10px 0 20px 0;
   width: 100%;
+}
+
+.numComments {
+  font-size: 0.8rem;
+  font-weight: 600;
 }
 
 .numComments:hover {

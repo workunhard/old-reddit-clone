@@ -45,3 +45,25 @@
   color: #ff6f00;
   font-weight: 700;
 }
+
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 5px;
+  }
+
+  .button-bar {
+    display: flex;
+  }
+
+  .create-post-btn {
+    margin-top: 3px;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+  }
+
+  .login-message {
+    text-align: center;
+  }
+}

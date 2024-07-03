@@ -14,7 +14,7 @@ const Login = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const { setAuthToken, setDisplayName: updateDisplayName } = useAuth();
-  const baseUrl = "http://old-reddit-backend.us-west-2.elasticbeanstalk.com";
+  const baseUrl = "https://orc-api.codes-test-domain.com";
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -11,7 +11,7 @@ function PostListItem({ post }: { post: Post }) {
   const { authToken } = useAuth();
   const [upvotes, setUpvotes] = useState(post.upvotes);
   const [downvotes, setDownvotes] = useState(post.downvotes);
-  
+
   const submitVote = (vote: string) => {
     if (!authToken) {
       alert("You must be logged in to vote");
@@ -19,7 +19,9 @@ function PostListItem({ post }: { post: Post }) {
     }
 
     axios
-      .post(`http://old-reddit-backend.us-west-2.elasticbeanstalk.com/posts/${post._id}/vote`, { vote },
+      .post(
+        `https://orc-api.codes-test-domain.com/posts/${post._id}/vote`,
+        { vote },
         {
           headers: {
             Authorization: `Bearer ${authToken}`, // Attach authorization header
@@ -53,9 +55,11 @@ function PostListItem({ post }: { post: Post }) {
           <Link className="author" to={`users/${post.author}`}>
             {post.author}
           </Link>
-          </p>
-        <p className="post-body">{post.body}</p>
-        <Link className="numComments" to={`/${post._id}`}>{post.comments.length} comments</Link>
+        </p>
+        {/* <p className="post-body">{post.body}</p> */}
+        <Link className="numComments" to={`/${post._id}`}>
+          {post.comments.length} comments
+        </Link>
       </Link>
     </div>
   );

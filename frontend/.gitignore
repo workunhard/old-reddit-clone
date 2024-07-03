@@ -14,6 +14,7 @@ dist-ssr
 *.local
 env-aws-eb.txt
 
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -24,3 +25,4 @@ env-aws-eb.txt
 *.njsproj
 *.sln
 *.sw?
+.eslintrc.cjs

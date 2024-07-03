@@ -1,6 +1,7 @@
 import "../styles/App.css";
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import CreatePostModal from "./posts/CreatePostModal";
 import PostListItem from "./posts/PostListItem";
@@ -11,7 +12,7 @@ function Body() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
   const { authToken, displayName } = useAuth();
-  const baseUrl = "http://old-reddit-backend.us-west-2.elasticbeanstalk.com";
+  const baseUrl = "https://orc-api.codes-test-domain.com";
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -78,7 +79,7 @@ function Body() {
       ) : (
         <>
           {authToken ? (
-            <div>
+            <div className="button-bar">
               <button
                 className={`create-post-btn ${!authToken ? "disabled" : ""}`}
                 onClick={showModal}
@@ -96,7 +97,10 @@ function Body() {
             </div>
           ) : (
             <p className="login-message">
-              <a className="orange" href="/login">Sign in</a> to post, comment, and vote!
+              <Link className="orange" to="/login">
+                Sign in
+              </Link>{" "}
+              to post, comment, and vote!
             </p>
           )}
           <div>

@@ -5,6 +5,7 @@ import arrowLeft from "../assets/arrow-left.svg";
 import "../styles/Profile.css";
 import ActivityLog from "./ActivityLog";
 import Comment from "../types/Comment";
+import { useAuth } from "../context/AuthContext";
 
 interface User {
   uid: string;
@@ -14,10 +15,16 @@ interface User {
   createdAt: { _seconds: number; _nanoseconds: number };
 }
 function Profile() {
+  const { setAuthToken, setDisplayName } = useAuth();
   const { username } = useParams<{ username: string }>();
   const [user, setUser] = useState<User | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
-  const baseUrl = "http://old-reddit-backend.us-west-2.elasticbeanstalk.com";
+  const baseUrl = "https://orc-api.codes-test-domain.com";
+
+  const handleLogout = () => {
+    setAuthToken(null);
+    setDisplayName(null);
+  };
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -57,9 +64,9 @@ function Profile() {
           <span>Back</span>
         </Link>
         <div className="profile-details">
-          <h1>{username}</h1>
+          <h1 className="username">{username}</h1>
           {user ? (
-            <div>
+            <>
               <p>Email: {user.email}</p>
               <p>Number of Posts: {user.postSubmissions.length}</p>
               <p>Number of Comments: {user.comments.length}</p>
@@ -67,7 +74,10 @@ function Profile() {
                 Date joined:{" "}
                 {user.createdAt ? formatDate(user.createdAt) : "Unknown"}
               </p>
-            </div>
+              <button className="logout-btn" onClick={handleLogout}>
+                Logout
+              </button>
+            </>
           ) : (
             <p>Loading...</p>
           )}

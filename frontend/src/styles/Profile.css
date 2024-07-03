@@ -1,14 +1,48 @@
 .profile-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+}
 
+.logout-btn {
+  background-color: #181818;
+  margin-top: 0px;
+  margin-bottom: 20px;
 }
 
 .activity-log {
-    border-top:1px solid white;
+  border-top: 1px solid white;
+  width: 100%;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .profile-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .username {
+    margin: 5px 0px;
+  }
+
+  .profile-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  p {
+    margin: 5px;
+  }
+
+  .logout-btn {
+    margin: 10px 0px;
+  }
+  .activity-log {
     width: 100%;
+  }
 }

@@ -1,30 +1,30 @@
-# old-reddit-clone
-A simple (Old) Reddit clone built with React, Express, and Firebase (auth + Firestore)
+# old-reddit-clone | https://codes-test-domain.com
+A simple Old Reddit clone built with React, Express, GCP and AWS
 
 ## Background
-I've always preferred the aesthetic and functionality of Old Reddit over the 2018 redesign, specifically when it comes to use of screen real estate. On Old Reddit, each post on the frontpage is allocated its own compact row, allowing users to view approximately 15 post titles simultaneously on desktop. This layout is practical and offers a better, more comprehensive overview of content, minimizing the need for excessive scrolling. In contrast, the redesign emphasizes prolonged scrolling -- not unlike virtually every other social media app today -- and displays more content from individual posts (including sponsored/promoted ads) which makes for worse viewing on a bigger screen. Examples circa June 2024:
+I Like using Reddit on desktop, specificallly 'Old' Reddit which you can still experience if you 'opt out' of the 2018 redesign (see user preferences). Old Reddit's layout offers a better, more comprehensive overview of content, minimizing the need for excessive scrolling. In contrast, the 2018 redesign is unabashedly mobile-first, displaying more content from individual posts (including sponsored/promoted ads) which makes for worse viewing on bigger screens. Examples circa June 2024:
 
-How it was:
+How it was (Old):
 ![Glorious Old Reddit](./resources/image-2.png)
 
-How it's going:
+How it's going (New):
 ![New Reddit](./resources/image-1.png)
 
-I felt like recreating the Old Reddit aesthetic was complex enough to be gratifying while simple enough so as not to draw away from the main purpose of this exercise: to rapidly design/build a full-stack application with React in the front, and Express + Firebase in the back.
+At first I simply wanted to recreate the Old Reddit aesthetic in React with manual CSS, but it quickly turned into a full-stack exercise through which I'm deepening my knowledge of system design and cloud services.
 
 ## Features
 * User authentication
 * Create, read, update, and delete(TODO) posts
 * Comment on posts
 * Upvote and downvote posts/comments (TODO: limit votes to one per user)
-* TODO: View user profiles, post/comment history
+* View user profiles, post/comment history
 * TODO: Edit and delete comments
 
 ## Technologies
 * TypeScript
 * CSS
-* GCP - Firebase (Auth + Firestore)
-* AWS - EC2 + Elastic Beanstalk
+* AWS | EC2, Elastic Beanstalk, Cloudfront, S3, Route 53, ACM
+* GCP | Firebase (Auth + Firestore)
 * React
 * Express
 
