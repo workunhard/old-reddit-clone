@@ -71,7 +71,6 @@ const serviceAccount = {
   auth_provider_x509_cert_url: process.env.FIREBASE_AUTH_PROVIDER_CERT_URL,
   client_x509_cert_url: process.env.FIREBASE_CLIENT_CERT_URL,
 };
-
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
 });
@@ -90,6 +89,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(express.static(path.join(__dirname)));
 
 // Authentication middleware
 const authenticateToken = async (
@@ -110,8 +110,6 @@ const authenticateToken = async (
     return res.sendStatus(403);
   }
 };
-
-app.use(express.static(path.join(__dirname)));
 
 // Routes
 app.get("/", (_req: Request, res: Response) => {
@@ -134,15 +132,16 @@ app.post(
     const { email, password, displayName } = req.body;
 
     try {
+      // Create user in Firebase Auth
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
       const user = userCredential.user;
-
       await updateProfile(user, { displayName });
 
+      // Create user doc in Firestore
       const userDoc = {
         uid: user.uid,
         email: user.email,
@@ -151,7 +150,6 @@ app.post(
         postSubmissions: [],
         comments: [],
       };
-
       await db.collection("users").doc(user.uid).set(userDoc);
 
       res
@@ -172,7 +170,6 @@ app.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-
     const { email, password } = req.body;
 
     try {
@@ -195,7 +192,7 @@ app.post(
 app.get("/get-posts", async (_req: Request, res: Response) => {
   try {
     const posts = await db.collection("posts").get();
-    const postsArray = posts.docs.map((doc: { data: () => any; }) => doc.data());
+    const postsArray = posts.docs.map((doc: { data: () => any }) => doc.data());
     res.status(200).json(postsArray);
   } catch (error) {
     console.error("Error fetching posts:", error);
@@ -313,11 +310,11 @@ app.get(
       const postsSnapshot = await db.collection("posts").get();
       let comments: Comment[] = [];
 
-      postsSnapshot.forEach((postDoc: { data: () => any; }) => {
+      postsSnapshot.forEach((postDoc: { data: () => any }) => {
         const post = postDoc.data();
         if (post.comments && Array.isArray(post.comments)) {
           const userComments = post.comments.filter(
-            (comment: { author: string; }) => comment.author === username
+            (comment: { author: string }) => comment.author === username
           );
           comments = comments.concat(userComments);
         }
@@ -339,11 +336,11 @@ app.get(
       const postsSnapshot = await db.collection("posts").get();
       let parentTitle = "Post not found";
 
-      postsSnapshot.forEach((postDoc: { data: () => any; }) => {
+      postsSnapshot.forEach((postDoc: { data: () => any }) => {
         const post = postDoc.data();
         if (post.comments && Array.isArray(post.comments)) {
           const comment = post.comments.find(
-            (comment: { _id: string; }) => comment._id === commentId
+            (comment: { _id: string }) => comment._id === commentId
           );
           if (comment) {
             parentTitle = post.title;
@@ -522,3 +519,5 @@ app.post(
 app.listen(port, () => {
   console.log(`Server started on http://localhost:${port}`);
 });
+
+export default app;
