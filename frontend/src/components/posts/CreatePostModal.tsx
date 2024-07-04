@@ -1,7 +1,7 @@
-// CreatePostModal.tsx
 import "../../styles/CreatePostModal.css";
 import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
+import LoadingSpinner from "../LoadingSpinner";
 
 interface ModalProps {
   closeModal: () => void;
@@ -10,16 +10,23 @@ interface ModalProps {
 
 const CreatePostModal: React.FC<ModalProps> = ({ closeModal, submitPost }) => {
   const [title, setTitle] = useState("");
+  const [loading, setLoading] = useState(false);
   const [body, setBody] = useState("");
-  const { authToken } = useAuth(); // Access token from useAuth
+  const { authToken } = useAuth(); 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!authToken) {
-      console.error("User not logged in");
-      return;
+    setLoading(true);
+    try {
+      if (!authToken) {
+        console.error("User not logged in");
+        return;
+      }
+      await submitPost(title, body);
+    } catch (error) {
+      console.error("Error submitting post:", error);
     }
-    await submitPost(title, body);
+    setLoading(false);
   };
 
   return (
@@ -47,9 +54,15 @@ const CreatePostModal: React.FC<ModalProps> = ({ closeModal, submitPost }) => {
             onChange={(e) => setBody(e.target.value)}
             required
           />
-          <button type="submit" className="submit-btn">
-            Post
-          </button>
+          <div className="center">
+            {loading ? (
+              <LoadingSpinner />
+            ) : (
+              <button type="submit" className="submit-btn">
+                Post
+              </button>
+            )}
+          </div>
         </form>
       </div>
     </div>

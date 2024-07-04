@@ -8,7 +8,7 @@ import Comment from "../types/Comment";
 import timeAgo from "../util/TimeAgoUtil";
 import VoteIndicator from "./VoteIndicator";
 import arrowLeft from "../assets/arrow-left.svg";
-import LoadingSpinner from "./LoadingSpinner"; // Add this import
+import LoadingSpinner from "./LoadingSpinner";
 
 function PostPage() {
   const { postId } = useParams<{ postId: string }>();
@@ -63,7 +63,6 @@ function PostPage() {
       })
       .catch((error) => {
         console.error("Error adding comment:", error);
-        // Handle error appropriately, e.g., show a message to the user
       });
   };
 
@@ -112,7 +111,6 @@ function PostPage() {
         console.error("Error voting on post:", error);
         if (error.response && error.response.status === 401) {
           alert("Your session has expired. Please log in again.");
-          // Implement a function to log out the user and redirect to login page
         }
       });
   };
@@ -162,7 +160,7 @@ function PostPage() {
           </div>
         </>
       ) : (
-        <LoadingSpinner /> // This replaces the previous <p>Loading...</p>
+        <LoadingSpinner />
       )}
     </>
   );

@@ -7,6 +7,7 @@ interface Props {
 }
 
 const ActivityLog: React.FC<Props> = ({ comments }) => {
+  
   return (
     <>
       <div className="comments-section">

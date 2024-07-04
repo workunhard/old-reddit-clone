@@ -32,10 +32,12 @@ const Login = () => {
       console.error(error);
       setError("Invalid credentials (WIP)");
     }
+    setLoading(false);
   };
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     try {
       await axios.post(baseUrl + "/register", {
         email,
@@ -46,6 +48,7 @@ const Login = () => {
     } catch (error) {
       console.error(error);
     }
+    setLoading(false);
   };
 
   return (

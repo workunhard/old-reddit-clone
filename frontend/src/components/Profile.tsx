@@ -1,11 +1,12 @@
+import "../styles/Profile.css";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import arrowLeft from "../assets/arrow-left.svg";
-import "../styles/Profile.css";
 import ActivityLog from "./ActivityLog";
 import Comment from "../types/Comment";
 import { useAuth } from "../context/AuthContext";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface User {
   uid: string;
@@ -15,7 +16,7 @@ interface User {
   createdAt: { _seconds: number; _nanoseconds: number };
 }
 function Profile() {
-  const { setAuthToken, setDisplayName } = useAuth();
+  const { displayName, setAuthToken, setDisplayName } = useAuth();
   const { username } = useParams<{ username: string }>();
   const [user, setUser] = useState<User | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
@@ -74,12 +75,14 @@ function Profile() {
                 Date joined:{" "}
                 {user.createdAt ? formatDate(user.createdAt) : "Unknown"}
               </p>
-              <button className="logout-btn" onClick={handleLogout}>
-                Logout
-              </button>
+              {displayName === username && (
+                <button className="logout-btn" onClick={handleLogout}>
+                  Logout
+                </button>
+              )}
             </>
           ) : (
-            <p>Loading...</p>
+            <LoadingSpinner />
           )}
         </div>
         <div className="activity-log">
