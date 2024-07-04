@@ -2,7 +2,7 @@
 A simple Old Reddit clone built with React, Express, GCP and AWS
 
 ## Background
-I Like using Reddit on desktop, specificallly 'Old' Reddit which you can still experience if you 'opt out' of the 2018 redesign (see user preferences). Old Reddit's layout offers a better, more comprehensive overview of content, minimizing the need for excessive scrolling. In contrast, the 2018 redesign is unabashedly mobile-first, displaying more content from individual posts (including sponsored/promoted ads) which makes for worse viewing on bigger screens. Examples circa June 2024:
+I like using Reddit on desktop, specificallly 'Old' Reddit which you can still experience if you 'opt out' of the 2018 redesign (see user preferences). Old Reddit's layout offers a better, more comprehensive overview of content, minimizing the need for excessive scrolling. In contrast, the 2018 redesign is unabashedly mobile-first, displaying more content from individual posts (including sponsored/promoted ads) which makes for worse viewing on bigger screens. Examples circa June 2024:
 
 How it was (Old):
 ![Glorious Old Reddit](./resources/image-2.png)
